@@ -2,21 +2,21 @@
 
 import { useEffect, useState, ReactElement } from "react";
 
-// ── SVG icons (flat, monochrome, stroke-based) ──────────────────────────────
+// ── Icons ────────────────────────────────────────────────────────────────────
 
 function IconBarChart() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="12" width="4" height="9" rx="1" />
-      <rect x="10" y="7" width="4" height="14" rx="1" />
-      <rect x="17" y="3" width="4" height="18" rx="1" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="12" width="4" height="9" rx="0.5" />
+      <rect x="10" y="7" width="4" height="14" rx="0.5" />
+      <rect x="17" y="3" width="4" height="18" rx="0.5" />
     </svg>
   );
 }
 
 function IconZap() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
     </svg>
   );
@@ -24,20 +24,20 @@ function IconZap() {
 
 function IconBlocks() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="7" height="7" rx="1" />
-      <rect x="14" y="3" width="7" height="7" rx="1" />
-      <rect x="3" y="14" width="7" height="7" rx="1" />
-      <rect x="14" y="14" width="7" height="7" rx="1" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="0.5" />
+      <rect x="14" y="3" width="7" height="7" rx="0.5" />
+      <rect x="3" y="14" width="7" height="7" rx="0.5" />
+      <rect x="14" y="14" width="7" height="7" rx="0.5" />
     </svg>
   );
 }
 
 function IconClipboard() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-      <rect x="9" y="3" width="6" height="4" rx="1" />
+      <rect x="9" y="3" width="6" height="4" rx="0.5" />
       <line x1="9" y1="12" x2="15" y2="12" />
       <line x1="9" y1="16" x2="13" y2="16" />
     </svg>
@@ -46,8 +46,8 @@ function IconClipboard() {
 
 function IconTable() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="0.5" />
       <line x1="3" y1="9" x2="21" y2="9" />
       <line x1="3" y1="15" x2="21" y2="15" />
       <line x1="9" y1="9" x2="9" y2="21" />
@@ -57,7 +57,7 @@ function IconTable() {
 
 function IconTrendingUp() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
       <polyline points="17 6 23 6 23 12" />
     </svg>
@@ -66,7 +66,7 @@ function IconTrendingUp() {
 
 function IconCar() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h10l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" />
       <circle cx="7.5" cy="17" r="2" />
       <circle cx="16.5" cy="17" r="2" />
@@ -74,7 +74,7 @@ function IconCar() {
   );
 }
 
-// ── Data ────────────────────────────────────────────────────────────────────
+// ── Data ─────────────────────────────────────────────────────────────────────
 
 interface Tool {
   id: string;
@@ -113,7 +113,7 @@ const groups: Group[] = [
   },
 ];
 
-// ── App icon tile ────────────────────────────────────────────────────────────
+// ── App icon ──────────────────────────────────────────────────────────────────
 
 function AppIcon({ tool }: { tool: Tool }) {
   return (
@@ -121,19 +121,19 @@ function AppIcon({ tool }: { tool: Tool }) {
       href={tool.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col items-center gap-2 w-20 select-none"
+      className="group flex flex-col items-center gap-2 select-none"
     >
-      <div className="w-16 h-16 rounded-2xl bg-neutral-100 group-hover:bg-neutral-200 transition-colors duration-150 flex items-center justify-center text-neutral-600 group-hover:text-neutral-900 p-4">
+      <div className="w-14 h-14 rounded-xl bg-[#111] flex items-center justify-center text-[#f0eeec] p-[14px] transition-all duration-100 group-hover:bg-[#333] group-hover:scale-105 shadow-sm">
         <tool.Icon />
       </div>
-      <span className="text-[11px] text-neutral-500 group-hover:text-neutral-700 text-center leading-tight transition-colors duration-150">
+      <span className="text-[10px] font-mono text-[#555] group-hover:text-[#111] text-center leading-tight max-w-[64px] transition-colors duration-100">
         {tool.name}
       </span>
     </a>
   );
 }
 
-// ── Clock ────────────────────────────────────────────────────────────────────
+// ── Clock ─────────────────────────────────────────────────────────────────────
 
 function Clock() {
   const [time, setTime] = useState(() => new Date());
@@ -143,49 +143,83 @@ function Clock() {
     return () => clearInterval(interval);
   }, []);
 
-  const hours = time.toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" });
-  const date = time.toLocaleDateString("nl-NL", { weekday: "long", day: "numeric", month: "long" });
-
   return (
-    <div className="select-none mb-10">
-      <div className="text-4xl font-light text-neutral-800 tabular-nums">{hours}</div>
-      <div className="text-sm text-neutral-400 mt-0.5 capitalize">{date}</div>
-    </div>
+    <span className="font-mono text-sm text-[#f0eeec]/70 tabular-nums">
+      {time.toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+    </span>
   );
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const today = new Date().toLocaleDateString("nl-NL", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric",
+  });
+
   return (
-    <main className="min-h-screen bg-white flex flex-col">
-      <header className="px-8 py-5 border-b border-neutral-100 flex items-center gap-2.5">
-        <div className="w-5 h-5 rounded bg-neutral-900 flex items-center justify-center">
-          <span className="text-white text-[9px] font-bold">W</span>
-        </div>
-        <span className="text-sm font-medium text-neutral-700">Woeler Hub</span>
-      </header>
+    <main className="min-h-screen flex flex-col" style={{ backgroundColor: "#f0eeec" }}>
 
-      <div className="flex-1 flex items-start justify-center px-8 pt-16 pb-12">
-        <div className="w-full max-w-md">
-          <Clock />
-
-          <div className="space-y-10">
-            {groups.map((group) => (
-              <div key={group.label}>
-                <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-widest mb-4">
-                  {group.label}
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  {group.tools.map((tool) => (
-                    <AppIcon key={tool.id} tool={tool} />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Menu bar */}
+      <div className="bg-[#111] flex items-center justify-between px-6 py-2.5 select-none">
+        <div className="flex items-center gap-6">
+          <span className="text-[#f0eeec] font-mono text-sm font-bold tracking-widest uppercase">
+            Woeler
+          </span>
+          <div className="w-px h-4 bg-[#f0eeec]/20" />
+          <span className="text-[#f0eeec]/50 font-mono text-xs">Hub v1</span>
         </div>
+        <Clock />
       </div>
+
+      {/* Desktop */}
+      <div className="flex-1 flex flex-col px-10 pt-12 pb-10">
+
+        {/* Hero heading */}
+        <div className="mb-12 border-b border-[#111]/10 pb-8">
+          <p className="font-mono text-xs text-[#999] uppercase tracking-[0.2em] mb-2">{today}</p>
+          <h1 className="text-5xl font-black tracking-tight text-[#111] leading-none uppercase">
+            Woeler<br />
+            <span className="text-[#111]/25">Hub_</span>
+          </h1>
+        </div>
+
+        {/* Groups */}
+        <div className="flex flex-col gap-12">
+          {groups.map((group) => (
+            <div key={group.label}>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#999]">
+                  {group.label}
+                </span>
+                <div className="flex-1 h-px bg-[#111]/10" />
+              </div>
+              <div className="flex flex-wrap gap-6">
+                {group.tools.map((tool) => (
+                  <AppIcon key={tool.id} tool={tool} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+
+      {/* Status bar */}
+      <div className="border-t border-[#111]/10 px-6 py-2 flex items-center justify-between">
+        <span className="font-mono text-[10px] text-[#aaa]">
+          {groups.reduce((n, g) => n + g.tools.length, 0)} apps
+        </span>
+        <a
+          href="https://www.woeler.nl"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-[10px] text-[#aaa] hover:text-[#111] transition-colors"
+        >
+          woeler.nl ↗
+        </a>
+      </div>
+
     </main>
   );
 }
