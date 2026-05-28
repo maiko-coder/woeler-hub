@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactElement } from "react";
 
 // ── SVG icons (flat, monochrome, stroke-based) ──────────────────────────────
 
@@ -80,7 +80,7 @@ interface Tool {
   id: string;
   name: string;
   url: string;
-  Icon: () => JSX.Element;
+  Icon: () => ReactElement;
 }
 
 interface Group {
