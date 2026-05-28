@@ -163,38 +163,40 @@ export default function Home() {
       {/* Menu bar */}
       <div className="bg-[#111] flex items-center justify-between px-6 py-2.5 select-none">
         <div className="flex items-center gap-6">
-          <span className="text-[#f0eeec] font-mono text-sm font-bold tracking-widest uppercase">
+          <span className="text-[#FF6B1A] font-mono text-sm font-bold tracking-widest uppercase">
             Woeler
           </span>
           <div className="w-px h-4 bg-[#f0eeec]/20" />
-          <span className="text-[#f0eeec]/50 font-mono text-xs">Hub v1</span>
+          <span className="text-[#f0eeec]/40 font-mono text-xs">Hub v1</span>
         </div>
         <Clock />
       </div>
 
       {/* Desktop */}
-      <div className="flex-1 flex flex-col px-10 pt-12 pb-10">
+      <div className="flex-1 flex flex-col items-center px-10 pt-12 pb-10">
 
         {/* Hero heading */}
-        <div className="mb-12 border-b border-[#111]/10 pb-8">
-          <p className="font-mono text-xs text-[#999] uppercase tracking-[0.2em] mb-2">{today}</p>
+        <div className="mb-12 pb-8 text-center w-full max-w-xl border-b border-[#111]/10">
+          <p className="font-mono text-xs text-[#bbb] uppercase tracking-[0.2em] mb-3">{today}</p>
           <h1 className="text-5xl font-black tracking-tight text-[#111] leading-none uppercase">
-            Woeler<br />
-            <span className="text-[#111]/25">Hub_</span>
+            Woeler
+            <span className="text-[#FF6B1A]">Hub</span>
+            <span className="text-[#111]/20">_</span>
           </h1>
         </div>
 
         {/* Groups */}
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-12 w-full max-w-xl items-center">
           {groups.map((group) => (
-            <div key={group.label}>
-              <div className="flex items-center gap-3 mb-5">
+            <div key={group.label} className="w-full">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B1A]" />
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#999]">
                   {group.label}
                 </span>
                 <div className="flex-1 h-px bg-[#111]/10" />
               </div>
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap justify-center gap-7">
                 {group.tools.map((tool) => (
                   <AppIcon key={tool.id} tool={tool} />
                 ))}
@@ -207,14 +209,14 @@ export default function Home() {
 
       {/* Status bar */}
       <div className="border-t border-[#111]/10 px-6 py-2 flex items-center justify-between">
-        <span className="font-mono text-[10px] text-[#aaa]">
+        <span className="font-mono text-[10px] text-[#bbb]">
           {groups.reduce((n, g) => n + g.tools.length, 0)} apps
         </span>
         <a
           href="https://www.woeler.nl"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-mono text-[10px] text-[#aaa] hover:text-[#111] transition-colors"
+          className="font-mono text-[10px] text-[#bbb] hover:text-[#FF6B1A] transition-colors"
         >
           woeler.nl ↗
         </a>
