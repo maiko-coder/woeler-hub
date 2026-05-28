@@ -44,6 +44,30 @@ const tools: Tool[] = [
     accent: "#7C3AED",
     initials: "MO",
   },
+  {
+    id: "betty",
+    name: "Betty Blocks",
+    url: "https://woeler.bettyblocks.com/",
+    description: "Woeler applicaties",
+    accent: "#E11D48",
+    initials: "BB",
+  },
+  {
+    id: "masteroverzicht",
+    name: "Masteroverzicht",
+    url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414",
+    description: "Algemeen overzicht",
+    accent: "#0F9D58",
+    initials: "MO",
+  },
+  {
+    id: "masteroverzicht-sales",
+    name: "Masteroverzicht Sales",
+    url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458",
+    description: "Sales overzicht",
+    accent: "#0F9D58",
+    initials: "MS",
+  },
 ];
 
 function ToolCard({ tool }: { tool: Tool }) {
