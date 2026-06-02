@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // ── XP-style coloured app icons (SVG with gradient fills) ────────────────────
 
@@ -188,6 +189,14 @@ function DesktopIconTile({ icon }: { icon: DesktopIcon }) {
 const allTools = groups.flatMap((g) => g.icons);
 
 function StartMenu({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
+
+  async function handleLogout() {
+    onClose();
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  }
   return (
     <>
       {/* Backdrop */}
@@ -277,7 +286,7 @@ function StartMenu({ onClose }: { onClose: () => void }) {
           style={{ background: "linear-gradient(90deg, #1e54c0 0%, #3a7bd4 100%)" }}
         >
           <button
-            onClick={onClose}
+            onClick={handleLogout}
             className="flex items-center gap-1.5 text-white text-[11px] px-3 py-1 rounded hover:bg-white/20 transition-colors"
             style={{ fontFamily: "Tahoma, sans-serif" }}
           >
@@ -286,7 +295,7 @@ function StartMenu({ onClose }: { onClose: () => void }) {
               <polyline points="16 17 21 12 16 7" />
               <line x1="21" y1="12" x2="9" y2="12" />
             </svg>
-            Afsluiten
+            Uitloggen
           </button>
         </div>
       </div>
