@@ -101,6 +101,18 @@ function IconAuto() {
   );
 }
 
+function IconNmbrs() {
+  return (
+    <XpIcon from="#00c9a7" to="#007a63">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="18" height="16" rx="1.5" fill="white" fillOpacity={0.15} />
+        <line x1="3" y1="9" x2="21" y2="9" />
+        <text x="12" y="17" textAnchor="middle" fontSize="7" fontWeight="bold" fill="white" stroke="none" fontFamily="Tahoma,sans-serif">€ LOON</text>
+      </svg>
+    </XpIcon>
+  );
+}
+
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 interface DesktopIcon {
@@ -123,6 +135,7 @@ const groups: Group[] = [
       { id: "meta", name: "Meta Optimizer", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
       { id: "betty", name: "Betty Blocks", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
       { id: "intake", name: "Intake", url: "https://intake.woeler.nl", Icon: IconIntake },
+      { id: "nmbrs", name: "Nmbrs", url: "https://www.nmbrs.com/nl/inloggen", Icon: IconNmbrs },
     ],
   },
   {
