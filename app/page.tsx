@@ -1,141 +1,178 @@
 "use client";
 
-import { useEffect, useState, ReactElement } from "react";
+import { useEffect, useState } from "react";
 
-// ── Icons ────────────────────────────────────────────────────────────────────
+// ── XP-style coloured app icons (SVG with gradient fills) ────────────────────
 
-function IconBarChart() {
+function XpIcon({ children, from, to }: { children: React.ReactNode; from: string; to: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="12" width="4" height="9" rx="0.5" />
-      <rect x="10" y="7" width="4" height="14" rx="0.5" />
-      <rect x="17" y="3" width="4" height="18" rx="0.5" />
-    </svg>
+    <div
+      className="w-12 h-12 rounded-lg flex items-center justify-center shadow-md flex-shrink-0"
+      style={{ background: `linear-gradient(145deg, ${from}, ${to})` }}
+    >
+      {children}
+    </div>
   );
 }
 
-function IconZap() {
+function IconAdOptimizer() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-    </svg>
+    <XpIcon from="#4facf7" to="#1565c0">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="12" width="4" height="9" rx="0.5" fill="white" fillOpacity={0.3} stroke="white" />
+        <rect x="10" y="7" width="4" height="14" rx="0.5" fill="white" fillOpacity={0.3} stroke="white" />
+        <rect x="17" y="3" width="4" height="18" rx="0.5" fill="white" fillOpacity={0.3} stroke="white" />
+      </svg>
+    </XpIcon>
   );
 }
 
-function IconBlocks() {
+function IconMetaOptimizer() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="7" height="7" rx="0.5" />
-      <rect x="14" y="3" width="7" height="7" rx="0.5" />
-      <rect x="3" y="14" width="7" height="7" rx="0.5" />
-      <rect x="14" y="14" width="7" height="7" rx="0.5" />
-    </svg>
+    <XpIcon from="#c471f5" to="#6a0dad">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white" stroke="white" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" fillOpacity={0.9} />
+      </svg>
+    </XpIcon>
   );
 }
 
-function IconClipboard() {
+function IconBetty() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-      <rect x="9" y="3" width="6" height="4" rx="0.5" />
-      <line x1="9" y1="12" x2="15" y2="12" />
-      <line x1="9" y1="16" x2="13" y2="16" />
-    </svg>
+    <XpIcon from="#ff6b6b" to="#c0392b">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1" fill="white" fillOpacity={0.35} />
+        <rect x="14" y="3" width="7" height="7" rx="1" fill="white" fillOpacity={0.35} />
+        <rect x="3" y="14" width="7" height="7" rx="1" fill="white" fillOpacity={0.35} />
+        <rect x="14" y="14" width="7" height="7" rx="1" fill="white" fillOpacity={0.35} />
+      </svg>
+    </XpIcon>
   );
 }
 
-function IconTable() {
+function IconIntake() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="0.5" />
-      <line x1="3" y1="9" x2="21" y2="9" />
-      <line x1="3" y1="15" x2="21" y2="15" />
-      <line x1="9" y1="9" x2="9" y2="21" />
-    </svg>
+    <XpIcon from="#ffe259" to="#e67e22">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" fill="white" fillOpacity={0.2} />
+        <rect x="9" y="3" width="6" height="4" rx="1" fill="white" fillOpacity={0.4} />
+        <line x1="9" y1="12" x2="15" y2="12" />
+        <line x1="9" y1="16" x2="13" y2="16" />
+      </svg>
+    </XpIcon>
   );
 }
 
-function IconTrendingUp() {
+function IconMasteroverzicht() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-      <polyline points="17 6 23 6 23 12" />
-    </svg>
+    <XpIcon from="#56ab2f" to="#1a6b06">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="1" fill="white" fillOpacity={0.2} />
+        <line x1="3" y1="9" x2="21" y2="9" />
+        <line x1="3" y1="15" x2="21" y2="15" />
+        <line x1="9" y1="9" x2="9" y2="21" />
+        <line x1="15" y1="9" x2="15" y2="21" />
+      </svg>
+    </XpIcon>
   );
 }
 
-function IconCar() {
+function IconSales() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h10l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" />
-      <circle cx="7.5" cy="17" r="2" />
-      <circle cx="16.5" cy="17" r="2" />
-    </svg>
+    <XpIcon from="#43e97b" to="#0d7c4e">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3,18 9,11 14,14 21,5" />
+        <polyline points="16,5 21,5 21,10" />
+      </svg>
+    </XpIcon>
   );
 }
 
-// ── Data ─────────────────────────────────────────────────────────────────────
+function IconAuto() {
+  return (
+    <XpIcon from="#74b9ff" to="#1e3c8a">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h10l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" fill="white" fillOpacity={0.2} />
+        <circle cx="7.5" cy="17" r="2" fill="white" fillOpacity={0.5} />
+        <circle cx="16.5" cy="17" r="2" fill="white" fillOpacity={0.5} />
+        <line x1="8" y1="9" x2="16" y2="9" />
+      </svg>
+    </XpIcon>
+  );
+}
 
-interface Tool {
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+interface DesktopIcon {
   id: string;
   name: string;
   url: string;
-  Icon: () => ReactElement;
+  Icon: () => React.ReactElement;
 }
 
 interface Group {
   label: string;
-  tools: Tool[];
+  icons: DesktopIcon[];
 }
 
 const groups: Group[] = [
   {
     label: "Tools",
-    tools: [
-      { id: "adoptimizer", name: "AdOptimizer", url: "https://adoptimizer.nl", Icon: IconBarChart },
-      { id: "meta-optimizer", name: "Meta Optimizer", url: "https://www.meta-optimizer.nl", Icon: IconZap },
-      { id: "betty", name: "Betty Blocks", url: "https://woeler.bettyblocks.com/", Icon: IconBlocks },
-      { id: "intake", name: "Intake", url: "https://intake.woeler.nl", Icon: IconClipboard },
+    icons: [
+      { id: "adoptimizer", name: "AdOptimizer", url: "https://adoptimizer.nl", Icon: IconAdOptimizer },
+      { id: "meta", name: "Meta Optimizer", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
+      { id: "betty", name: "Betty Blocks", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
+      { id: "intake", name: "Intake", url: "https://intake.woeler.nl", Icon: IconIntake },
     ],
   },
   {
     label: "Overzichten",
-    tools: [
-      { id: "masteroverzicht", name: "Masteroverzicht", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconTable },
-      { id: "masteroverzicht-sales", name: "Sales", url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458", Icon: IconTrendingUp },
+    icons: [
+      { id: "masteroverzicht", name: "Masteroverzicht", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconMasteroverzicht },
+      { id: "sales", name: "Sales", url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458", Icon: IconSales },
     ],
   },
   {
     label: "Auto",
-    tools: [
-      { id: "auto", name: "Pool auto", url: "https://auto.woeler.nl", Icon: IconCar },
+    icons: [
+      { id: "auto", name: "Pool auto", url: "https://auto.woeler.nl", Icon: IconAuto },
     ],
   },
 ];
 
-// ── App icon ──────────────────────────────────────────────────────────────────
+// ── Desktop icon tile ─────────────────────────────────────────────────────────
 
-function AppIcon({ tool }: { tool: Tool }) {
+function DesktopIconTile({ icon }: { icon: DesktopIcon }) {
+  const [selected, setSelected] = useState(false);
+
   return (
     <a
-      href={tool.url}
+      href={icon.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col items-center gap-2 select-none"
+      onClick={() => setSelected(true)}
+      onBlur={() => setSelected(false)}
+      className="flex flex-col items-center gap-1.5 w-20 p-2 rounded cursor-pointer select-none group"
+      style={{
+        background: selected ? "rgba(49,106,197,0.35)" : "transparent",
+      }}
     >
-      <div className="w-14 h-14 rounded-xl bg-[#111] flex items-center justify-center text-[#f0eeec] p-[14px] transition-all duration-100 group-hover:bg-[#333] group-hover:scale-105 shadow-sm">
-        <tool.Icon />
+      <div className="group-hover:brightness-110 transition-all duration-100 drop-shadow-lg">
+        <icon.Icon />
       </div>
-      <span className="text-[10px] font-mono text-[#555] group-hover:text-[#111] text-center leading-tight max-w-[64px] transition-colors duration-100">
-        {tool.name}
+      <span
+        className="text-[11px] text-white text-center leading-tight font-normal max-w-full break-words px-0.5"
+        style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.9), -1px -1px 2px rgba(0,0,0,0.7)" }}
+      >
+        {icon.name}
       </span>
     </a>
   );
 }
 
-// ── Clock ─────────────────────────────────────────────────────────────────────
+// ── Clock for taskbar ─────────────────────────────────────────────────────────
 
-function Clock() {
+function TaskbarClock() {
   const [time, setTime] = useState(() => new Date());
 
   useEffect(() => {
@@ -144,84 +181,149 @@ function Clock() {
   }, []);
 
   return (
-    <span className="font-mono text-sm text-[#f0eeec]/70 tabular-nums">
-      {time.toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-    </span>
+    <div className="text-white text-xs text-right leading-tight select-none px-2">
+      <div className="font-normal" style={{ textShadow: "1px 1px 1px rgba(0,0,0,0.6)" }}>
+        {time.toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" })}
+      </div>
+      <div className="text-[10px] opacity-80">
+        {time.toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit", year: "numeric" })}
+      </div>
+    </div>
   );
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Home() {
-  const today = new Date().toLocaleDateString("nl-NL", {
-    weekday: "long", day: "numeric", month: "long", year: "numeric",
-  });
-
   return (
-    <main className="min-h-screen flex flex-col" style={{ backgroundColor: "#f0eeec" }}>
+    <div className="min-h-screen flex flex-col overflow-hidden" style={{ fontFamily: "Tahoma, Verdana, sans-serif" }}>
 
-      {/* Menu bar */}
-      <div className="bg-[#111] flex items-center justify-between px-6 py-2.5 select-none">
-        <div className="flex items-center gap-6">
-          <span className="text-[#FF6B1A] font-mono text-sm font-bold tracking-widest uppercase">
-            Woeler
-          </span>
-          <div className="w-px h-4 bg-[#f0eeec]/20" />
-          <span className="text-[#f0eeec]/40 font-mono text-xs">Hub v1</span>
-        </div>
-        <Clock />
+      {/* Bliss wallpaper */}
+      <div className="absolute inset-0 -z-10">
+        {/* Sky */}
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(180deg, #3a6dbf 0%, #5a9fd4 28%, #7ec8e3 50%, #a8d8ea 55%)"
+        }} />
+        {/* Clouds */}
+        <div className="absolute inset-0" style={{
+          background: `
+            radial-gradient(ellipse 220px 80px at 20% 25%, rgba(255,255,255,0.75) 0%, transparent 70%),
+            radial-gradient(ellipse 140px 55px at 15% 30%, rgba(255,255,255,0.55) 0%, transparent 70%),
+            radial-gradient(ellipse 180px 65px at 72% 18%, rgba(255,255,255,0.7) 0%, transparent 70%),
+            radial-gradient(ellipse 120px 45px at 78% 23%, rgba(255,255,255,0.5) 0%, transparent 70%),
+            radial-gradient(ellipse 100px 40px at 50% 12%, rgba(255,255,255,0.45) 0%, transparent 70%)
+          `
+        }} />
+        {/* Hills SVG */}
+        <svg
+          className="absolute bottom-10 left-0 w-full"
+          viewBox="0 0 1440 420"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="grass1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#7dc142" />
+              <stop offset="100%" stopColor="#4e9622" />
+            </linearGradient>
+            <linearGradient id="grass2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#6db83a" />
+              <stop offset="100%" stopColor="#3e7c18" />
+            </linearGradient>
+          </defs>
+          {/* Back hill */}
+          <path d="M0,280 C180,160 400,100 720,140 C1040,180 1260,160 1440,200 L1440,420 L0,420 Z" fill="url(#grass2)" opacity="0.7" />
+          {/* Main hill */}
+          <path d="M0,340 C200,200 480,120 800,160 C1100,195 1300,230 1440,260 L1440,420 L0,420 Z" fill="url(#grass1)" />
+          {/* Ground */}
+          <rect x="0" y="390" width="1440" height="30" fill="#4a8f1e" />
+        </svg>
       </div>
 
-      {/* Desktop */}
-      <div className="flex-1 flex flex-col items-center px-10 pt-12 pb-10">
-
-        {/* Hero heading */}
-        <div className="mb-12 pb-8 text-center w-full max-w-xl border-b border-[#111]/10">
-          <p className="font-mono text-xs text-[#bbb] uppercase tracking-[0.2em] mb-3">{today}</p>
-          <h1 className="text-5xl font-black tracking-tight text-[#111] leading-none uppercase">
-            Woeler
-            <span className="text-[#FF6B1A]">Hub</span>
-            <span className="text-[#111]/20">_</span>
-          </h1>
-        </div>
-
-        {/* Groups */}
-        <div className="flex flex-col gap-12 w-full max-w-xl items-center">
+      {/* Desktop icons area */}
+      <div className="flex-1 flex flex-col justify-start pt-6 pl-4 pr-4">
+        <div className="flex flex-col gap-6">
           {groups.map((group) => (
-            <div key={group.label} className="w-full">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B1A]" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#999]">
+            <div key={group.label}>
+              {/* Subtle group label */}
+              <div className="mb-1 pl-2">
+                <span
+                  className="text-[10px] text-white/70 uppercase tracking-widest"
+                  style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.8)" }}
+                >
                   {group.label}
                 </span>
-                <div className="flex-1 h-px bg-[#111]/10" />
               </div>
-              <div className="flex flex-wrap justify-center gap-7">
-                {group.tools.map((tool) => (
-                  <AppIcon key={tool.id} tool={tool} />
+              <div className="flex flex-row flex-wrap gap-1">
+                {group.icons.map((icon) => (
+                  <DesktopIconTile key={icon.id} icon={icon} />
                 ))}
               </div>
             </div>
           ))}
         </div>
-
       </div>
 
-      {/* Status bar */}
-      <div className="border-t border-[#111]/10 px-6 py-2 flex items-center justify-between">
-        <span className="font-mono text-[10px] text-[#bbb]">
-          {groups.reduce((n, g) => n + g.tools.length, 0)} apps
-        </span>
-        <a
-          href="https://www.woeler.nl"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-[10px] text-[#bbb] hover:text-[#FF6B1A] transition-colors"
+      {/* XP Taskbar */}
+      <div
+        className="relative h-10 flex items-center px-0 select-none z-10"
+        style={{
+          background: "linear-gradient(180deg, #2a5fbd 0%, #1a4aaa 4%, #2060c8 8%, #1e54b8 45%, #1648a0 50%, #1040a0 51%, #1848b0 100%)",
+          boxShadow: "0 -1px 0 rgba(255,255,255,0.3) inset, 0 1px 3px rgba(0,0,0,0.5)"
+        }}
+      >
+        {/* Start button */}
+        <button
+          className="h-full flex items-center gap-1.5 px-3 pr-4 text-white font-bold text-sm rounded-r-full z-10 relative"
+          style={{
+            background: "linear-gradient(180deg, #5dbb3e 0%, #3ca01a 40%, #2f8a10 60%, #4aaf28 100%)",
+            boxShadow: "2px 0 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)",
+            minWidth: "90px",
+            fontFamily: "Tahoma, sans-serif",
+          }}
         >
-          woeler.nl ↗
-        </a>
-      </div>
+          <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="white">
+            <path d="M10.9,2.1c-4.6,0.5-8.3,4.2-8.8,8.7c-0.6,5,2.5,9.5,7,11.1V19c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1v2.9 c4.5-1.6,7.6-6.1,7-11.1C20.2,6.3,16.1,1.6,10.9,2.1z M16,13c0,0.6-0.4,1-1,1h-2v2c0,0.6-0.4,1-1,1s-1-0.4-1-1v-2H9 c-0.6,0-1-0.4-1-1s0.4-1,1-1h2V9c0-0.6,0.4-1,1-1s1,0.4,1,1v3h2C15.6,12,16,12.4,16,13z" />
+          </svg>
+          <span style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)", fontSize: 13 }}>start</span>
+        </button>
 
-    </main>
+        {/* Separator */}
+        <div className="w-px h-full bg-white/10 mx-2" />
+
+        {/* Quick launch area - show open apps */}
+        <div className="flex items-center gap-1 flex-1 px-1 overflow-hidden">
+          <div
+            className="h-8 flex items-center px-2 gap-1.5 rounded text-white text-xs truncate max-w-[180px]"
+            style={{
+              background: "rgba(0,0,0,0.2)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)"
+            }}
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" fill="white" opacity={0.8}>
+              <rect x="2" y="3" width="20" height="14" rx="1" fill="none" stroke="white" strokeWidth="2"/>
+              <line x1="2" y1="20" x2="22" y2="20" stroke="white" strokeWidth="2"/>
+            </svg>
+            <span style={{ fontFamily: "Tahoma, sans-serif", fontSize: 11 }}>Woeler Hub</span>
+          </div>
+        </div>
+
+        {/* System tray */}
+        <div
+          className="h-full flex items-center px-3 gap-3 border-l border-white/10"
+          style={{
+            background: "linear-gradient(180deg, #1040a0 0%, #0d3585 50%, #1040a0 100%)",
+            boxShadow: "inset 1px 0 0 rgba(255,255,255,0.15)"
+          }}
+        >
+          {/* Volume icon */}
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-white/80" fill="currentColor">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+          </svg>
+          <TaskbarClock />
+        </div>
+      </div>
+    </div>
   );
 }
