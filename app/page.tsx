@@ -314,6 +314,16 @@ function IconEnvato() {
   );
 }
 
+function IconCanva() {
+  return (
+    <XpIcon from="#7d2ae8" to="#4a0ea8">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white" fillOpacity={0.95}>
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 13.5c-.4.4-1 .5-1.5.2l-2-1.2-2 1.2c-.5.3-1.1.2-1.5-.2-.4-.4-.5-1-.2-1.5l1.2-2-1.2-2c-.3-.5-.2-1.1.2-1.5.4-.4 1-.5 1.5-.2l2 1.2 2-1.2c.5-.3 1.1-.2 1.5.2.4.4.5 1 .2 1.5l-1.2 2 1.2 2c.3.5.2 1.1-.2 1.5z" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -523,6 +533,7 @@ const groups: Group[] = [
       { id: "chatgpt", name: "ChatGPT", type: "link", url: "https://chatgpt.com", Icon: IconChatGPT },
       { id: "gemini", name: "Gemini", type: "link", url: "https://gemini.google.com", Icon: IconGemini },
       { id: "envato", name: "Envato", type: "link", url: "https://app.envato.com", Icon: IconEnvato },
+      { id: "canva", name: "Canva", type: "link", url: "https://www.canva.com", Icon: IconCanva },
     ],
   },
   {
