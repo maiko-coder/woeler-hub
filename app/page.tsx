@@ -170,6 +170,117 @@ function DesktopIconTile({ icon }: { icon: DesktopIcon }) {
   );
 }
 
+// ── Start menu ───────────────────────────────────────────────────────────────
+
+const allTools = groups.flatMap((g) => g.icons);
+
+function StartMenu({ onClose }: { onClose: () => void }) {
+  return (
+    <>
+      {/* Backdrop */}
+      <div className="fixed inset-0 z-20" onClick={onClose} />
+
+      {/* Menu */}
+      <div
+        className="absolute bottom-10 left-0 z-30 w-80 rounded-tr-xl overflow-hidden"
+        style={{
+          boxShadow: "3px -3px 12px rgba(0,0,0,0.6)",
+          border: "1px solid #1a3a8f",
+        }}
+      >
+        {/* Header */}
+        <div
+          className="flex items-center gap-3 px-3 py-2.5"
+          style={{ background: "linear-gradient(90deg, #1e54c0 0%, #3a7bd4 100%)" }}
+        >
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+            style={{ background: "linear-gradient(145deg, #FF6B1A, #c04a00)" }}
+          >
+            W
+          </div>
+          <div>
+            <div className="text-white font-bold text-sm" style={{ fontFamily: "Tahoma, sans-serif" }}>Woeler</div>
+            <div className="text-white/70 text-[11px]" style={{ fontFamily: "Tahoma, sans-serif" }}>Hub gebruiker</div>
+          </div>
+        </div>
+
+        {/* Body: two columns */}
+        <div className="flex" style={{ background: "#fff" }}>
+          {/* Left: pinned apps */}
+          <div className="flex-1 border-r border-gray-200 py-2">
+            <div className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 mb-1">
+              Programma&apos;s
+            </div>
+            {allTools.map((tool) => (
+              <a
+                key={tool.id}
+                href={tool.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="flex items-center gap-2.5 px-3 py-1.5 hover:bg-[#316ac5] group"
+              >
+                <div className="w-7 h-7 flex-shrink-0 rounded scale-[0.58] origin-left">
+                  <tool.Icon />
+                </div>
+                <span
+                  className="text-[12px] text-gray-800 group-hover:text-white truncate"
+                  style={{ fontFamily: "Tahoma, sans-serif" }}
+                >
+                  {tool.name}
+                </span>
+              </a>
+            ))}
+          </div>
+
+          {/* Right: places */}
+          <div className="w-36 py-2 bg-[#dce5f5]">
+            <div className="px-3 py-1 text-[10px] font-bold text-[#1e3a8a] uppercase tracking-wider border-b border-[#b8caea] mb-1">
+              Woeler
+            </div>
+            {[
+              { label: "woeler.nl", url: "https://www.woeler.nl" },
+              { label: "E-mail", url: "mailto:" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="flex items-center px-3 py-1.5 text-[12px] text-[#1e3a8a] hover:bg-[#316ac5] hover:text-white group"
+                style={{ fontFamily: "Tahoma, sans-serif" }}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div
+          className="flex justify-end gap-2 px-3 py-2 border-t border-[#1a3a8f]"
+          style={{ background: "linear-gradient(90deg, #1e54c0 0%, #3a7bd4 100%)" }}
+        >
+          <button
+            onClick={onClose}
+            className="flex items-center gap-1.5 text-white text-[11px] px-3 py-1 rounded hover:bg-white/20 transition-colors"
+            style={{ fontFamily: "Tahoma, sans-serif" }}
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Afsluiten
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // ── Clock for taskbar ─────────────────────────────────────────────────────────
 
 function TaskbarClock() {
@@ -195,6 +306,8 @@ function TaskbarClock() {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const [startOpen, setStartOpen] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden" style={{ fontFamily: "Tahoma, Verdana, sans-serif" }}>
 
@@ -272,12 +385,19 @@ export default function Home() {
           boxShadow: "0 -1px 0 rgba(255,255,255,0.3) inset, 0 1px 3px rgba(0,0,0,0.5)"
         }}
       >
+        {startOpen && <StartMenu onClose={() => setStartOpen(false)} />}
+
         {/* Start button */}
         <button
+          onClick={() => setStartOpen((o) => !o)}
           className="h-full flex items-center gap-1.5 px-3 pr-4 text-white font-bold text-sm rounded-r-full z-10 relative"
           style={{
-            background: "linear-gradient(180deg, #5dbb3e 0%, #3ca01a 40%, #2f8a10 60%, #4aaf28 100%)",
-            boxShadow: "2px 0 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)",
+            background: startOpen
+              ? "linear-gradient(180deg, #2f8a10 0%, #3ca01a 40%, #5dbb3e 100%)"
+              : "linear-gradient(180deg, #5dbb3e 0%, #3ca01a 40%, #2f8a10 60%, #4aaf28 100%)",
+            boxShadow: startOpen
+              ? "inset 2px 2px 4px rgba(0,0,0,0.4)"
+              : "2px 0 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)",
             minWidth: "90px",
             fontFamily: "Tahoma, sans-serif",
           }}
