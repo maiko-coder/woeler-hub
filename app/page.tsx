@@ -126,6 +126,154 @@ function IconFolder() {
   );
 }
 
+// ── New tool icons ────────────────────────────────────────────────────────────
+
+function IconGoogleAds() {
+  return (
+    <XpIcon from="#34a853" to="#1a7a35">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <text x="12" y="14" textAnchor="middle" fontSize="13" fontWeight="900" fill="white" stroke="none" fontFamily="Arial,sans-serif">G</text>
+        <rect x="4" y="16" width="4" height="5" rx="0.5" fill="white" fillOpacity={0.8} />
+        <rect x="10" y="13" width="4" height="8" rx="0.5" fill="white" fillOpacity={0.8} />
+        <rect x="16" y="10" width="4" height="11" rx="0.5" fill="white" fillOpacity={0.8} />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconMetaAds() {
+  return (
+    <XpIcon from="#1877F2" to="#0c52bb">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 4c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3zm0 14c-2.5 0-4.7-1.2-6-3.1.1-2 4-3.1 6-3.1 2.1 0 5.9 1.1 6 3.1-1.3 1.9-3.5 3.1-6 3.1z" fillOpacity={0.9} />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconPinterestAds() {
+  return (
+    <XpIcon from="#e60023" to="#a3001a">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white" fillOpacity={0.95}>
+        <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.23-5.2 1.23-5.2s-.31-.63-.31-1.56c0-1.46.85-2.55 1.9-2.55.9 0 1.33.67 1.33 1.48 0 .9-.57 2.25-.87 3.5-.25 1.04.52 1.89 1.54 1.89 1.85 0 3.09-2.37 3.09-5.17 0-2.14-1.44-3.63-3.5-3.63-2.39 0-3.79 1.79-3.79 3.64 0 .72.28 1.49.62 1.91.07.08.08.15.06.23-.06.26-.2.82-.23.94-.04.15-.13.18-.3.11-1.11-.52-1.8-2.14-1.8-3.44 0-2.8 2.03-5.37 5.85-5.37 3.07 0 5.46 2.19 5.46 5.11 0 3.05-1.92 5.5-4.58 5.5-.89 0-1.73-.46-2.02-1.01l-.55 2.05c-.2.77-.74 1.73-1.1 2.32.83.26 1.71.4 2.62.4 5.52 0 10-4.48 10-10S17.52 2 12 2z" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconMicrosoftAds() {
+  return (
+    <XpIcon from="#0078d4" to="#004f8f">
+      <svg viewBox="0 0 24 24" className="w-7 h-7">
+        <rect x="3" y="3" width="8.5" height="8.5" fill="#f25022" rx="0.5" />
+        <rect x="12.5" y="3" width="8.5" height="8.5" fill="#7fba00" rx="0.5" />
+        <rect x="3" y="12.5" width="8.5" height="8.5" fill="#00a4ef" rx="0.5" />
+        <rect x="12.5" y="12.5" width="8.5" height="8.5" fill="#ffb900" rx="0.5" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconTikTokAds() {
+  return (
+    <XpIcon from="#1a1a2e" to="#16213e">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.73z" fillOpacity={0.9} />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconGmail() {
+  return (
+    <XpIcon from="#EA4335" to="#b5170a">
+      <svg viewBox="0 0 24 24" className="w-7 h-7">
+        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" fill="white" fillOpacity={0.2} stroke="white" strokeWidth={1.5} />
+        <polyline points="2,6 12,13 22,6" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconGoogleAgenda() {
+  return (
+    <XpIcon from="#4285F4" to="#1a56c4">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" fill="white" fillOpacity={0.15} />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+        <text x="12" y="18" textAnchor="middle" fontSize="7" fontWeight="bold" fill="white" stroke="none" fontFamily="Arial,sans-serif">31</text>
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconGoogleSheets() {
+  return (
+    <XpIcon from="#0F9D58" to="#076b39">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4" y="2" width="16" height="20" rx="1.5" fill="white" fillOpacity={0.15} />
+        <line x1="4" y1="8" x2="20" y2="8" />
+        <line x1="4" y1="13" x2="20" y2="13" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+        <line x1="9" y1="8" x2="9" y2="22" />
+        <line x1="14" y1="8" x2="14" y2="22" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconGoogleDrive() {
+  return (
+    <XpIcon from="#1a73e8" to="#0d47a1">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none">
+        <polygon points="12,3 22,20 2,20" fill="white" fillOpacity={0.15} stroke="white" strokeWidth={1.5} strokeLinejoin="round" />
+        <polygon points="12,3 18,14 6,14" fill="white" fillOpacity={0.4} stroke="none" />
+        <line x1="2" y1="20" x2="22" y2="20" stroke="white" strokeWidth={1.5} strokeLinecap="round" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconLookerStudio() {
+  return (
+    <XpIcon from="#4285F4" to="#1967d2">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" fill="white" fillOpacity={0.1} />
+        <path d="M7 16 Q9 8 12 8 Q15 8 17 16" fill="white" fillOpacity={0.3} stroke="white" strokeWidth={1.5} />
+        <line x1="7" y1="16" x2="17" y2="16" />
+        <circle cx="12" cy="12" r="2" fill="white" fillOpacity={0.8} stroke="none" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconMonday() {
+  return (
+    <XpIcon from="#FF3D57" to="#c42040">
+      <svg viewBox="0 0 24 24" className="w-7 h-7">
+        <circle cx="6" cy="12" r="3.5" fill="#FF9F1C" />
+        <circle cx="13" cy="12" r="3.5" fill="white" fillOpacity={0.9} />
+        <circle cx="20" cy="12" r="3.5" fill="#00C875" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconLastPass() {
+  return (
+    <XpIcon from="#CC0000" to="#8b0000">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="5" y="11" width="14" height="10" rx="2" fill="white" fillOpacity={0.2} />
+        <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        <circle cx="12" cy="16" r="1.5" fill="white" stroke="none" />
+        <line x1="12" y1="17.5" x2="12" y2="19" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -287,10 +435,32 @@ const groups: Group[] = [
     label: "Tools",
     icons: [
       { id: "adoptimizer", name: "AdOptimizer", type: "link", url: "https://adoptimizer.nl", Icon: IconAdOptimizer },
-      { id: "meta", name: "Meta Optimizer", type: "link", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
+      { id: "meta-optimizer", name: "Meta Optimizer", type: "link", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
+      { id: "monday", name: "Monday", type: "link", url: "https://monday.com", Icon: IconMonday },
+      { id: "lastpass", name: "LastPass", type: "link", url: "https://www.lastpass.com", Icon: IconLastPass },
       { id: "betty", name: "Betty Blocks", type: "link", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
       { id: "intake", name: "Intake", type: "link", url: "https://intake.woeler.nl", Icon: IconIntake },
       { id: "nmbrs", name: "Nmbrs", type: "link", url: "https://www.nmbrs.com/nl/inloggen", Icon: IconNmbrs },
+    ],
+  },
+  {
+    label: "Ad Platformen",
+    icons: [
+      { id: "google-ads", name: "Google Ads", type: "link", url: "https://ads.google.com", Icon: IconGoogleAds },
+      { id: "meta-ads", name: "Meta Ads", type: "link", url: "https://adsmanager.facebook.com", Icon: IconMetaAds },
+      { id: "pinterest-ads", name: "Pinterest Ads", type: "link", url: "https://ads.pinterest.com", Icon: IconPinterestAds },
+      { id: "microsoft-ads", name: "Microsoft Ads", type: "link", url: "https://ads.microsoft.com", Icon: IconMicrosoftAds },
+      { id: "tiktok-ads", name: "TikTok Ads", type: "link", url: "https://ads.tiktok.com", Icon: IconTikTokAds },
+    ],
+  },
+  {
+    label: "Google",
+    icons: [
+      { id: "gmail", name: "Gmail", type: "link", url: "https://mail.google.com", Icon: IconGmail },
+      { id: "agenda", name: "Agenda", type: "link", url: "https://calendar.google.com", Icon: IconGoogleAgenda },
+      { id: "sheets", name: "Sheets", type: "link", url: "https://docs.google.com/spreadsheets", Icon: IconGoogleSheets },
+      { id: "drive", name: "Drive", type: "link", url: "https://drive.google.com", Icon: IconGoogleDrive },
+      { id: "datastudio", name: "Datastudio", type: "link", url: "https://lookerstudio.google.com", Icon: IconLookerStudio },
     ],
   },
   {
