@@ -1,0 +1,30 @@
+// Woeler Hub – READ-ONLY verbinding met de gedeelde AdOptimizer database.
+// NOOIT: prisma migrate, prisma db push, prisma migrate reset uitvoeren.
+// Dit schema is alleen voor `prisma generate` (type-generatie).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MARKETEER
+  SALES
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  role          Role      @default(MARKETEER)
+  approved      Boolean   @default(false)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
