@@ -274,6 +274,46 @@ function IconLastPass() {
   );
 }
 
+function IconClaude() {
+  return (
+    <XpIcon from="#d4763b" to="#9a4a1a">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+        <path d="M12 3C8.5 3 6 5.5 5 8.5L3 17h3l1-3h10l1 3h3l-2-8.5C18 5.5 15.5 3 12 3zm-2.5 8.5L11 6.5h2l1.5 5H9.5z" fillOpacity={0.9} />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconChatGPT() {
+  return (
+    <XpIcon from="#10a37f" to="#05694f">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white" fillOpacity={0.95}>
+        <path d="M20.5 9.5a4.5 4.5 0 0 0-3.5-4.4A4.5 4.5 0 0 0 8.5 4a4.5 4.5 0 0 0-4.4 3.5A4.5 4.5 0 0 0 3.5 14.5a4.5 4.5 0 0 0 3.5 4.4A4.5 4.5 0 0 0 15.5 20a4.5 4.5 0 0 0 4.4-3.5 4.5 4.5 0 0 0 .6-7zm-9 8a3 3 0 0 1-2.9-2.2l-.1-.5.4-.3c.5-.3 1-.5 1.6-.5h2c.6 0 1.1.2 1.6.5l.4.3-.1.5A3 3 0 0 1 11.5 17.5zm-3.5-7a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zm7 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconGemini() {
+  return (
+    <XpIcon from="#4285F4" to="#8b00ff">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+        <path d="M12 2 L13.5 10 L22 12 L13.5 14 L12 22 L10.5 14 L2 12 L10.5 10 Z" fillOpacity={0.95} />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconEnvato() {
+  return (
+    <XpIcon from="#81b441" to="#4a7a18">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white" fillOpacity={0.9}>
+        <path d="M12 2L3 7v10l9 5 9-5V7L12 2zm0 2.3l6.5 3.6-2.2 1.2L12 6.5 7.7 9.1 5.5 7.9 12 4.3zM5 9.2l2.2 1.2v4.4L5 13.6V9.2zm12 0v4.4l-2.2 1.2v-4.4L17 9.2zm-3.3 5.6L12 16l-1.7-1.2V10l1.7.9 1.7-.9v4.8z" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -474,6 +514,15 @@ const groups: Group[] = [
     label: "Klanten",
     icons: [
       { id: "rietveld", name: "Rietveld", type: "folder", folderId: "rietveld-folder", Icon: IconFolder },
+    ],
+  },
+  {
+    label: "AI",
+    icons: [
+      { id: "claude", name: "Claude", type: "link", url: "https://claude.ai", Icon: IconClaude },
+      { id: "chatgpt", name: "ChatGPT", type: "link", url: "https://chatgpt.com", Icon: IconChatGPT },
+      { id: "gemini", name: "Gemini", type: "link", url: "https://gemini.google.com", Icon: IconGemini },
+      { id: "envato", name: "Envato", type: "link", url: "https://app.envato.com", Icon: IconEnvato },
     ],
   },
   {
