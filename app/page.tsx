@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 // ── XP-style coloured app icons (SVG with gradient fills) ────────────────────
@@ -114,12 +114,28 @@ function IconNmbrs() {
   );
 }
 
+function IconFolder() {
+  return (
+    <div className="w-12 h-12 flex items-center justify-center drop-shadow-md flex-shrink-0">
+      <svg viewBox="0 0 48 40" className="w-12 h-10">
+        <path d="M2 8 C2 6 3.5 4 6 4 L18 4 L22 8 L42 8 C44.5 8 46 9.5 46 12 L46 36 C46 38 44.5 40 42 40 L6 40 C3.5 40 2 38 2 36 Z" fill="#F5C842" />
+        <path d="M2 13 L46 13 L46 36 C46 38 44.5 40 42 40 L6 40 C3.5 40 2 38 2 36 Z" fill="#F9D959" />
+        <path d="M2 8 C2 6 3.5 4 6 4 L18 4 L22 8 L42 8 C44.5 8 46 9.5 46 12 L46 13 L2 13 Z" fill="#E8B420" />
+      </svg>
+    </div>
+  );
+}
+
 // ── Data ──────────────────────────────────────────────────────────────────────
+
+type IconType = "link" | "folder";
 
 interface DesktopIcon {
   id: string;
   name: string;
-  url: string;
+  type: IconType;
+  url?: string;
+  folderId?: string;
   Icon: () => React.ReactElement;
 }
 
@@ -128,49 +144,241 @@ interface Group {
   icons: DesktopIcon[];
 }
 
+interface FolderItem {
+  id: string;
+  name: string;
+  type: IconType;
+  url?: string;
+  folderId?: string;
+  Icon: () => React.ReactElement;
+}
+
+interface FolderDef {
+  id: string;
+  title: string;
+  items: FolderItem[];
+}
+
+const folderDefs: FolderDef[] = [
+  {
+    id: "sales-folder",
+    title: "Sales",
+    items: [
+      {
+        id: "sales-sheet",
+        name: "Overzicht",
+        type: "link",
+        url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458",
+        Icon: IconSales,
+      },
+      {
+        id: "prospects-folder",
+        name: "Prospects",
+        type: "folder",
+        folderId: "prospects-folder",
+        Icon: IconFolder,
+      },
+    ],
+  },
+  {
+    id: "prospects-folder",
+    title: "Prospects",
+    items: [],
+  },
+];
+
 const groups: Group[] = [
   {
     label: "Tools",
     icons: [
-      { id: "adoptimizer", name: "AdOptimizer", url: "https://adoptimizer.nl", Icon: IconAdOptimizer },
-      { id: "meta", name: "Meta Optimizer", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
-      { id: "betty", name: "Betty Blocks", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
-      { id: "intake", name: "Intake", url: "https://intake.woeler.nl", Icon: IconIntake },
-      { id: "nmbrs", name: "Nmbrs", url: "https://www.nmbrs.com/nl/inloggen", Icon: IconNmbrs },
+      { id: "adoptimizer", name: "AdOptimizer", type: "link", url: "https://adoptimizer.nl", Icon: IconAdOptimizer },
+      { id: "meta", name: "Meta Optimizer", type: "link", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
+      { id: "betty", name: "Betty Blocks", type: "link", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
+      { id: "intake", name: "Intake", type: "link", url: "https://intake.woeler.nl", Icon: IconIntake },
+      { id: "nmbrs", name: "Nmbrs", type: "link", url: "https://www.nmbrs.com/nl/inloggen", Icon: IconNmbrs },
     ],
   },
   {
     label: "Overzichten",
     icons: [
-      { id: "masteroverzicht", name: "Masteroverzicht", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconMasteroverzicht },
-      { id: "sales", name: "Sales", url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458", Icon: IconSales },
+      { id: "masteroverzicht", name: "Masteroverzicht", type: "link", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconMasteroverzicht },
+      { id: "sales", name: "Sales", type: "folder", folderId: "sales-folder", Icon: IconFolder },
     ],
   },
   {
     label: "Auto",
     icons: [
-      { id: "auto", name: "Pool auto", url: "https://auto.woeler.nl", Icon: IconAuto },
+      { id: "auto", name: "Pool auto", type: "link", url: "https://auto.woeler.nl", Icon: IconAuto },
     ],
   },
 ];
 
-// ── Desktop icon tile ─────────────────────────────────────────────────────────
+// ── XP Explorer Window ────────────────────────────────────────────────────────
 
-function DesktopIconTile({ icon }: { icon: DesktopIcon }) {
-  const [selected, setSelected] = useState(false);
+interface WinState {
+  instanceId: string;
+  folderId: string;
+  zIndex: number;
+  pos: { x: number; y: number };
+  minimized: boolean;
+}
+
+interface XpWindowProps {
+  win: WinState;
+  onClose: (id: string) => void;
+  onFocus: (id: string) => void;
+  onMinimize: (id: string) => void;
+  onMove: (id: string, pos: { x: number; y: number }) => void;
+  onOpenFolder: (folderId: string) => void;
+}
+
+function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: XpWindowProps) {
+  const folder = folderDefs.find((f) => f.id === win.folderId)!;
+  const dragging = useRef(false);
+  const dragOffset = useRef({ dx: 0, dy: 0 });
+
+  function startDrag(e: React.MouseEvent) {
+    dragging.current = true;
+    dragOffset.current = { dx: e.clientX - win.pos.x, dy: e.clientY - win.pos.y };
+    onFocus(win.instanceId);
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    function onMouseMove(e: MouseEvent) {
+      if (!dragging.current) return;
+      onMove(win.instanceId, {
+        x: e.clientX - dragOffset.current.dx,
+        y: e.clientY - dragOffset.current.dy,
+      });
+    }
+    function onMouseUp() { dragging.current = false; }
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [win.instanceId, onMove]);
+
+  if (win.minimized) return null;
 
   return (
-    <a
-      href={icon.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={() => setSelected(true)}
-      onBlur={() => setSelected(false)}
-      className="flex flex-col items-center gap-1.5 w-20 p-2 rounded cursor-pointer select-none group"
-      style={{
-        background: selected ? "rgba(49,106,197,0.35)" : "transparent",
-      }}
+    <div
+      className="fixed select-none"
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: 420 }}
+      onMouseDown={() => onFocus(win.instanceId)}
     >
+      {/* Drop shadow */}
+      <div className="rounded-t-lg overflow-hidden" style={{ boxShadow: "4px 4px 16px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.3)" }}>
+
+        {/* Title bar */}
+        <div
+          className="flex items-center gap-2 px-2 py-1.5 cursor-move"
+          style={{
+            background: "linear-gradient(180deg, #2a6dd4 0%, #1a50b8 50%, #1848a8 100%)",
+            borderBottom: "1px solid #1035a0",
+          }}
+          onMouseDown={startDrag}
+        >
+          {/* Folder icon tiny */}
+          <svg viewBox="0 0 20 16" className="w-4 h-3.5 flex-shrink-0">
+            <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
+            <path d="M1 5.5 L19 5.5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F9D959" />
+          </svg>
+          <span className="text-white text-xs font-bold flex-1 truncate" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
+            {folder.title}
+          </span>
+          {/* Window controls */}
+          <div className="flex gap-1">
+            <button
+              onClick={() => onMinimize(win.instanceId)}
+              className="w-5 h-5 rounded-sm flex items-center justify-center text-white text-[10px] hover:brightness-125"
+              style={{ background: "linear-gradient(180deg, #4a8ae8 0%, #2a5ac8 100%)", border: "1px solid #1035a0" }}
+              title="Minimaliseren"
+            >─</button>
+            <button
+              className="w-5 h-5 rounded-sm flex items-center justify-center text-white text-[10px] hover:brightness-125 opacity-40 cursor-not-allowed"
+              style={{ background: "linear-gradient(180deg, #4a8ae8 0%, #2a5ac8 100%)", border: "1px solid #1035a0" }}
+              title="Maximaliseren (niet beschikbaar)"
+            >□</button>
+            <button
+              onClick={() => onClose(win.instanceId)}
+              className="w-5 h-5 rounded-sm flex items-center justify-center text-white text-[11px] font-bold hover:brightness-125"
+              style={{ background: "linear-gradient(180deg, #e85050 0%, #c02020 100%)", border: "1px solid #901010" }}
+              title="Sluiten"
+            >✕</button>
+          </div>
+        </div>
+
+        {/* Address bar */}
+        <div
+          className="flex items-center gap-2 px-3 py-1.5 text-[11px] text-gray-700"
+          style={{ background: "#ece9d8", borderBottom: "1px solid #b0a890" }}
+        >
+          <span className="text-gray-500">Adres:</span>
+          <span className="font-semibold">Bureaublad \ {folder.title}</span>
+        </div>
+
+        {/* Content */}
+        <div
+          className="min-h-[160px] p-4"
+          style={{ background: "white", borderTop: "1px solid #dfdfdf" }}
+        >
+          {folder.items.length === 0 ? (
+            <div className="flex items-center justify-center h-24 text-gray-400 text-xs italic">
+              Deze map is leeg
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-4">
+              {folder.items.map((item) => (
+                <button
+                  key={item.id}
+                  className="flex flex-col items-center gap-1.5 w-20 p-2 rounded cursor-pointer group hover:bg-[#dce8f8] transition-colors"
+                  onClick={() => {
+                    if (item.type === "link" && item.url) window.open(item.url, "_blank");
+                    else if (item.type === "folder" && item.folderId) onOpenFolder(item.folderId);
+                  }}
+                >
+                  <div className="group-hover:brightness-105 transition-all">
+                    <item.Icon />
+                  </div>
+                  <span className="text-[11px] text-gray-800 text-center leading-tight break-words max-w-full">
+                    {item.name}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Status bar */}
+        <div
+          className="px-3 py-1 text-[10px] text-gray-600"
+          style={{ background: "#ece9d8", borderTop: "1px solid #b0a890" }}
+        >
+          {folder.items.length} object{folder.items.length !== 1 ? "en" : ""}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Desktop icon tile ─────────────────────────────────────────────────────────
+
+function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFolder: (id: string) => void }) {
+  const [selected, setSelected] = useState(false);
+
+  function handleClick(e: React.MouseEvent) {
+    setSelected(true);
+    if (icon.type === "folder" && icon.folderId) {
+      e.preventDefault();
+      onOpenFolder(icon.folderId);
+    }
+  }
+
+  const inner = (
+    <>
       <div className="group-hover:brightness-110 transition-all duration-100 drop-shadow-lg">
         <icon.Icon />
       </div>
@@ -180,13 +388,33 @@ function DesktopIconTile({ icon }: { icon: DesktopIcon }) {
       >
         {icon.name}
       </span>
+    </>
+  );
+
+  const cls = "flex flex-col items-center gap-1.5 w-20 p-2 rounded cursor-pointer select-none group";
+  const style = { background: selected ? "rgba(49,106,197,0.35)" : "transparent" };
+
+  if (icon.type === "folder") {
+    return (
+      <button className={cls} style={style} onClick={handleClick} onBlur={() => setSelected(false)}>
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <a href={icon.url} target="_blank" rel="noopener noreferrer"
+      className={cls} style={style}
+      onClick={() => setSelected(true)} onBlur={() => setSelected(false)}
+    >
+      {inner}
     </a>
   );
 }
 
 // ── Start menu ───────────────────────────────────────────────────────────────
 
-const allTools = groups.flatMap((g) => g.icons);
+const allTools = groups.flatMap((g) => g.icons).filter((i) => i.type === "link");
 
 function StartMenu({ onClose }: { onClose: () => void }) {
   const router = useRouter();
@@ -327,8 +555,63 @@ function TaskbarClock() {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+let winCounter = 0;
+
 export default function Home() {
   const [startOpen, setStartOpen] = useState(false);
+  const [windows, setWindows] = useState<WinState[]>([]);
+  const maxZ = useRef(100);
+
+  function openFolder(folderId: string) {
+    // Bring existing window to front instead of duplicating
+    const existing = windows.find((w) => w.folderId === folderId && !w.minimized);
+    if (existing) {
+      focusWindow(existing.instanceId);
+      return;
+    }
+    maxZ.current += 1;
+    const id = `win-${++winCounter}`;
+    setWindows((ws) => [
+      ...ws,
+      {
+        instanceId: id,
+        folderId,
+        zIndex: maxZ.current,
+        pos: { x: 120 + windows.length * 24, y: 80 + windows.length * 24 },
+        minimized: false,
+      },
+    ]);
+  }
+
+  function closeWindow(instanceId: string) {
+    setWindows((ws) => ws.filter((w) => w.instanceId !== instanceId));
+  }
+
+  function focusWindow(instanceId: string) {
+    maxZ.current += 1;
+    setWindows((ws) =>
+      ws.map((w) => w.instanceId === instanceId ? { ...w, zIndex: maxZ.current } : w)
+    );
+  }
+
+  function minimizeWindow(instanceId: string) {
+    setWindows((ws) =>
+      ws.map((w) => w.instanceId === instanceId ? { ...w, minimized: true } : w)
+    );
+  }
+
+  function moveWindow(instanceId: string, pos: { x: number; y: number }) {
+    setWindows((ws) =>
+      ws.map((w) => w.instanceId === instanceId ? { ...w, pos } : w)
+    );
+  }
+
+  function restoreWindow(instanceId: string) {
+    maxZ.current += 1;
+    setWindows((ws) =>
+      ws.map((w) => w.instanceId === instanceId ? { ...w, minimized: false, zIndex: maxZ.current } : w)
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden" style={{ fontFamily: "Tahoma, Verdana, sans-serif" }}>
@@ -343,6 +626,19 @@ export default function Home() {
           backgroundRepeat: "no-repeat",
         }}
       />
+
+      {/* XP Windows */}
+      {windows.map((win) => (
+        <XpWindow
+          key={win.instanceId}
+          win={win}
+          onClose={closeWindow}
+          onFocus={focusWindow}
+          onMinimize={minimizeWindow}
+          onMove={moveWindow}
+          onOpenFolder={openFolder}
+        />
+      ))}
 
       {/* Desktop icons area */}
       <div className="flex-1 flex flex-col justify-start pt-6 pl-4 pr-4">
@@ -360,7 +656,7 @@ export default function Home() {
               </div>
               <div className="flex flex-row flex-wrap gap-1">
                 {group.icons.map((icon) => (
-                  <DesktopIconTile key={icon.id} icon={icon} />
+                  <DesktopIconTile key={icon.id} icon={icon} onOpenFolder={openFolder} />
                 ))}
               </div>
             </div>
@@ -402,22 +698,30 @@ export default function Home() {
         {/* Separator */}
         <div className="w-px h-full bg-white/10 mx-2" />
 
-        {/* Quick launch area - show open apps */}
-        <div className="flex items-center gap-1 flex-1 px-1 overflow-hidden">
-          <div
-            className="h-8 flex items-center px-2 gap-1.5 rounded text-white text-xs truncate max-w-[180px]"
-            style={{
-              background: "rgba(0,0,0,0.2)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)"
-            }}
-          >
-            <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" fill="white" opacity={0.8}>
-              <rect x="2" y="3" width="20" height="14" rx="1" fill="none" stroke="white" strokeWidth="2"/>
-              <line x1="2" y1="20" x2="22" y2="20" stroke="white" strokeWidth="2"/>
-            </svg>
-            <span style={{ fontFamily: "Tahoma, sans-serif", fontSize: 11 }}>Woeler Hub</span>
-          </div>
+        {/* Open windows in taskbar */}
+        <div className="flex items-center gap-1 flex-1 px-1 overflow-x-auto overflow-y-hidden">
+          {windows.map((win) => {
+            const folder = folderDefs.find((f) => f.id === win.folderId);
+            return (
+              <button
+                key={win.instanceId}
+                onClick={() => win.minimized ? restoreWindow(win.instanceId) : minimizeWindow(win.instanceId)}
+                className="h-8 flex items-center px-2 gap-1.5 rounded text-white text-xs truncate max-w-[160px] flex-shrink-0"
+                style={{
+                  background: win.minimized ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.15)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  boxShadow: win.minimized ? "inset 0 1px 2px rgba(0,0,0,0.4)" : "none",
+                  fontFamily: "Tahoma, sans-serif",
+                  fontSize: 11,
+                }}
+              >
+                <svg viewBox="0 0 20 16" className="w-3.5 h-3 flex-shrink-0">
+                  <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
+                </svg>
+                {folder?.title ?? win.folderId}
+              </button>
+            );
+          })}
         </div>
 
         {/* System tray */}
