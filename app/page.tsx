@@ -570,10 +570,13 @@ function StartMenu({ onClose }: { onClose: () => void }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
-                className="flex items-center gap-2.5 px-3 py-1.5 hover:bg-[#316ac5] group"
+                className="flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group"
               >
-                <div className="w-7 h-7 flex-shrink-0 rounded scale-[0.58] origin-left">
-                  <tool.Icon />
+                {/* Icon: clip a 48px XpIcon down to 22×22 */}
+                <div className="flex-shrink-0 overflow-hidden rounded" style={{ width: 22, height: 22 }}>
+                  <div style={{ transform: "scale(0.458)", transformOrigin: "top left", width: 48, height: 48 }}>
+                    <tool.Icon />
+                  </div>
                 </div>
                 <span
                   className="text-[12px] text-gray-800 group-hover:text-white truncate"
