@@ -126,6 +126,49 @@ function IconFolder() {
   );
 }
 
+function IconDocFull() {
+  return (
+    <XpIcon from="#4169e1" to="#1a3aa0">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white" fillOpacity={0.2} />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="8" y1="13" x2="16" y2="13" />
+        <line x1="8" y1="17" x2="16" y2="17" />
+        <line x1="8" y1="9" x2="11" y2="9" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconDocSummary() {
+  return (
+    <XpIcon from="#27ae60" to="#0d6b30">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white" fillOpacity={0.2} />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="8" y1="13" x2="16" y2="13" />
+        <line x1="8" y1="17" x2="12" y2="17" />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconDocGoal() {
+  return (
+    <XpIcon from="#f97316" to="#c2410c">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" fill="white" fillOpacity={0.15} />
+        <circle cx="12" cy="12" r="6" fill="white" fillOpacity={0.15} />
+        <circle cx="12" cy="12" r="2" fill="white" fillOpacity={0.6} />
+        <line x1="12" y1="2" x2="12" y2="4" />
+        <line x1="12" y1="20" x2="12" y2="22" />
+        <line x1="2" y1="12" x2="4" y2="12" />
+        <line x1="20" y1="12" x2="22" y2="12" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 type IconType = "link" | "folder";
@@ -163,6 +206,53 @@ const folderDefs: FolderDef[] = [
   {
     id: "rietveld-folder",
     title: "Rietveld",
+    items: [
+      { id: "rv-google-ads", name: "Google Ads", type: "folder", folderId: "rv-google-ads-folder", Icon: IconFolder },
+      { id: "rv-meta-ads", name: "Meta Ads", type: "folder", folderId: "rv-meta-ads-folder", Icon: IconFolder },
+      { id: "rv-seo-cro", name: "SEO / CRO", type: "folder", folderId: "rv-seo-cro-folder", Icon: IconFolder },
+      { id: "rv-marketing-auto", name: "Marketing Automation", type: "folder", folderId: "rv-marketing-auto-folder", Icon: IconFolder },
+      { id: "rv-pinterest", name: "Pinterest", type: "folder", folderId: "rv-pinterest-folder", Icon: IconFolder },
+    ],
+  },
+  {
+    id: "rv-google-ads-folder",
+    title: "Google Ads",
+    items: [
+      { id: "ga-compleet", name: "Compleet", type: "link", url: "/rietveld/google-ads/compleet", Icon: IconDocFull },
+      { id: "ga-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/google-ads/samenvatting", Icon: IconDocSummary },
+      { id: "ga-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/google-ads/doelstellingen", Icon: IconDocGoal },
+    ],
+  },
+  {
+    id: "rv-meta-ads-folder",
+    title: "Meta Ads",
+    items: [
+      { id: "meta-compleet", name: "Compleet", type: "link", url: "/rietveld/meta-ads/compleet", Icon: IconDocFull },
+      { id: "meta-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/meta-ads/samenvatting", Icon: IconDocSummary },
+      { id: "meta-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/meta-ads/doelstellingen", Icon: IconDocGoal },
+    ],
+  },
+  {
+    id: "rv-seo-cro-folder",
+    title: "SEO / CRO",
+    items: [
+      { id: "seo-compleet", name: "Compleet", type: "link", url: "/rietveld/seo-cro/compleet", Icon: IconDocFull },
+      { id: "seo-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/seo-cro/samenvatting", Icon: IconDocSummary },
+      { id: "seo-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/seo-cro/doelstellingen", Icon: IconDocGoal },
+    ],
+  },
+  {
+    id: "rv-marketing-auto-folder",
+    title: "Marketing Automation",
+    items: [
+      { id: "email-compleet", name: "Compleet", type: "link", url: "/rietveld/marketing-automation/compleet", Icon: IconDocFull },
+      { id: "email-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/marketing-automation/samenvatting", Icon: IconDocSummary },
+      { id: "email-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/marketing-automation/doelstellingen", Icon: IconDocGoal },
+    ],
+  },
+  {
+    id: "rv-pinterest-folder",
+    title: "Pinterest",
     items: [],
   },
   {
