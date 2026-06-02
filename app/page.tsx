@@ -337,6 +337,42 @@ function IconFireflies() {
   );
 }
 
+function IconTagManager() {
+  return (
+    <XpIcon from="#4285F4" to="#1a56c4">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+        <rect x="3" y="3" width="18" height="18" rx="3" fill="white" fillOpacity={0.15} stroke="white" strokeWidth={1.5} />
+        <path d="M8 12l3 3 5-6" fill="none" stroke="white" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+        <text x="12" y="9" textAnchor="middle" fontSize="5.5" fontWeight="bold" fill="white" stroke="none" fontFamily="Arial,sans-serif">GTM</text>
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconAnalytics() {
+  return (
+    <XpIcon from="#E37400" to="#a34e00">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="14" width="4" height="7" rx="0.5" fill="white" fillOpacity={0.9} />
+        <rect x="10" y="9" width="4" height="12" rx="0.5" fill="white" fillOpacity={0.9} />
+        <rect x="17" y="4" width="4" height="17" rx="0.5" fill="white" fillOpacity={0.9} />
+      </svg>
+    </XpIcon>
+  );
+}
+
+function IconMerchant() {
+  return (
+    <XpIcon from="#34a853" to="#1a7a35">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" fill="white" fillOpacity={0.15} />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -504,6 +540,9 @@ const groups: Group[] = [
       { id: "sheets", name: "Sheets", type: "link", url: "https://docs.google.com/spreadsheets", Icon: IconGoogleSheets },
       { id: "drive", name: "Drive", type: "link", url: "https://drive.google.com", Icon: IconGoogleDrive },
       { id: "datastudio", name: "Datastudio", type: "link", url: "https://lookerstudio.google.com", Icon: IconLookerStudio },
+      { id: "analytics", name: "Analytics", type: "link", url: "https://analytics.google.com", Icon: IconAnalytics },
+      { id: "tagmanager", name: "Tag Manager", type: "link", url: "https://tagmanager.google.com", Icon: IconTagManager },
+      { id: "merchant", name: "Merchant", type: "link", url: "https://merchants.google.com", Icon: IconMerchant },
     ],
   },
   {
