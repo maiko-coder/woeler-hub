@@ -154,53 +154,58 @@ export default function LoginPage() {
               /* Expanded login form */
               <form
                 onSubmit={handleLogin}
-                className="rounded-lg overflow-hidden"
+                className="rounded-xl overflow-hidden"
                 style={{
                   background: "rgba(255,255,255,0.1)",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  maxWidth: 340,
+                  border: "1px solid rgba(255,255,255,0.25)",
+                  width: 320,
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
                 }}
               >
                 {/* User header */}
                 <div
-                  className="flex items-center gap-3 px-4 py-3"
-                  style={{ background: "rgba(0,0,0,0.15)", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
+                  className="flex items-center gap-3 px-5 py-4"
+                  style={{ background: "rgba(0,0,0,0.2)", borderBottom: "1px solid rgba(255,255,255,0.12)" }}
                 >
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: "linear-gradient(145deg, #4facf7, #1a6bc8)" }}
+                    className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: "linear-gradient(145deg, #4facf7, #1a6bc8)", boxShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
                   >
                     <svg viewBox="0 0 24 24" className="w-6 h-6" fill="white">
                       <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
                     </svg>
                   </div>
-                  <span className="text-white font-semibold text-sm" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
-                    Woeler medewerker
-                  </span>
+                  <div>
+                    <div className="text-white font-semibold text-sm leading-tight" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
+                      Woeler medewerker
+                    </div>
+                    <div className="text-white/50 text-[11px] mt-0.5">Vul je gegevens in</div>
+                  </div>
                 </div>
 
-                <div className="px-4 py-4 space-y-3">
-                  <div>
-                    <input
-                      type="email"
-                      autoComplete="email"
-                      autoFocus
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      placeholder="E-mailadres"
-                      className="w-full px-3 py-2 text-sm rounded outline-none"
-                      style={{
-                        background: "rgba(255,255,255,0.15)",
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        color: "white",
-                        caretColor: "white",
-                      }}
-                      onFocus={(e) => { e.target.style.border = "1px solid rgba(120,180,255,0.9)"; }}
-                      onBlur={(e) => { e.target.style.border = "1px solid rgba(255,255,255,0.3)"; }}
-                    />
-                  </div>
-                  <div className="flex gap-2">
+                {/* Fields */}
+                <div className="px-5 py-5 flex flex-col gap-3">
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="E-mailadres"
+                    className="w-full px-3 rounded outline-none text-sm"
+                    style={{
+                      height: 38,
+                      background: "white",
+                      border: "2px solid #7aaee8",
+                      color: "#1a1a2e",
+                      fontFamily: "Tahoma, sans-serif",
+                    }}
+                    onFocus={(e) => { e.target.style.border = "2px solid #3a7bd4"; }}
+                    onBlur={(e) => { e.target.style.border = "2px solid #7aaee8"; }}
+                  />
+
+                  <div className="flex gap-2 items-center">
                     <input
                       type="password"
                       autoComplete="current-password"
@@ -208,35 +213,38 @@ export default function LoginPage() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       placeholder="Wachtwoord"
-                      className="flex-1 px-3 py-2 text-sm rounded outline-none"
+                      className="flex-1 px-3 rounded outline-none text-sm"
                       style={{
-                        background: "rgba(255,255,255,0.15)",
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        color: "white",
-                        caretColor: "white",
+                        height: 38,
+                        background: "white",
+                        border: "2px solid #7aaee8",
+                        color: "#1a1a2e",
+                        fontFamily: "Tahoma, sans-serif",
                       }}
-                      onFocus={(e) => { e.target.style.border = "1px solid rgba(120,180,255,0.9)"; }}
-                      onBlur={(e) => { e.target.style.border = "1px solid rgba(255,255,255,0.3)"; }}
+                      onFocus={(e) => { e.target.style.border = "2px solid #3a7bd4"; }}
+                      onBlur={(e) => { e.target.style.border = "2px solid #7aaee8"; }}
                     />
-                    {/* XP green arrow button */}
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-10 h-10 rounded flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-60"
+                      className="flex-shrink-0 rounded flex items-center justify-center transition-all disabled:opacity-60 hover:brightness-110 active:brightness-90"
                       title="Aanmelden"
                       style={{
+                        width: 38,
+                        height: 38,
                         background: "linear-gradient(180deg, #5dbb3e 0%, #3ca01a 50%, #4aaf28 100%)",
-                        boxShadow: "0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)",
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.3)",
+                        border: "1px solid #2a7a10",
                       }}
                     >
                       {loading ? (
-                        <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}>
+                        <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5}>
                           <circle cx="12" cy="12" r="10" strokeOpacity={0.3} />
                           <path d="M12 2a10 10 0 0 1 10 10" />
                         </svg>
                       ) : (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5" fill="white">
-                          <path d="M8 5l8 7-8 7" />
+                        <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="white" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="9 18 15 12 9 6" />
                         </svg>
                       )}
                     </button>
@@ -244,8 +252,8 @@ export default function LoginPage() {
 
                   {error && (
                     <div
-                      className="text-xs px-2 py-1.5 rounded"
-                      style={{ background: "rgba(200,50,50,0.3)", color: "#ffaaaa", border: "1px solid rgba(255,100,100,0.3)" }}
+                      className="text-xs px-3 py-2 rounded"
+                      style={{ background: "rgba(200,50,50,0.35)", color: "#ffbbbb", border: "1px solid rgba(255,100,100,0.3)" }}
                     >
                       {error}
                     </div>
@@ -254,7 +262,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => { setSelected(false); setError(""); }}
-                    className="text-white/40 text-[10px] hover:text-white/70 transition-colors"
+                    className="text-white/40 text-[11px] hover:text-white/70 transition-colors text-left"
                   >
                     ← Terug naar gebruikerslijst
                   </button>
