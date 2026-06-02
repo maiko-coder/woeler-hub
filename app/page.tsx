@@ -594,37 +594,37 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
 
         {/* Title bar */}
         <div
-          className="flex items-center gap-2 px-2 py-1.5 cursor-move"
+          className="flex items-center gap-2.5 px-3 py-2.5 cursor-move"
           style={{
             background: "linear-gradient(180deg, #2a6dd4 0%, #1a50b8 50%, #1848a8 100%)",
             borderBottom: "1px solid #1035a0",
           }}
           onMouseDown={startDrag}
         >
-          {/* Folder icon tiny */}
-          <svg viewBox="0 0 20 16" className="w-4 h-3.5 flex-shrink-0">
+          {/* Folder icon */}
+          <svg viewBox="0 0 20 16" className="w-5 h-4 flex-shrink-0">
             <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
             <path d="M1 5.5 L19 5.5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F9D959" />
           </svg>
-          <span className="text-white text-xs font-bold flex-1 truncate" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
+          <span className="text-white text-sm font-bold flex-1 truncate" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
             {folder.title}
           </span>
           {/* Window controls */}
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             <button
               onClick={() => onMinimize(win.instanceId)}
-              className="w-5 h-5 rounded-sm flex items-center justify-center text-white text-[10px] hover:brightness-125"
+              className="w-6 h-6 rounded-sm flex items-center justify-center text-white text-xs font-bold hover:brightness-125"
               style={{ background: "linear-gradient(180deg, #4a8ae8 0%, #2a5ac8 100%)", border: "1px solid #1035a0" }}
               title="Minimaliseren"
             >─</button>
             <button
-              className="w-5 h-5 rounded-sm flex items-center justify-center text-white text-[10px] hover:brightness-125 opacity-40 cursor-not-allowed"
+              className="w-6 h-6 rounded-sm flex items-center justify-center text-white text-xs hover:brightness-125 opacity-40 cursor-not-allowed"
               style={{ background: "linear-gradient(180deg, #4a8ae8 0%, #2a5ac8 100%)", border: "1px solid #1035a0" }}
               title="Maximaliseren (niet beschikbaar)"
             >□</button>
             <button
               onClick={() => onClose(win.instanceId)}
-              className="w-5 h-5 rounded-sm flex items-center justify-center text-white text-[11px] font-bold hover:brightness-125"
+              className="w-6 h-6 rounded-sm flex items-center justify-center text-white text-xs font-bold hover:brightness-125"
               style={{ background: "linear-gradient(180deg, #e85050 0%, #c02020 100%)", border: "1px solid #901010" }}
               title="Sluiten"
             >✕</button>
