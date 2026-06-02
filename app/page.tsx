@@ -312,46 +312,15 @@ export default function Home() {
     <div className="min-h-screen flex flex-col overflow-hidden" style={{ fontFamily: "Tahoma, Verdana, sans-serif" }}>
 
       {/* Bliss wallpaper */}
-      <div className="absolute inset-0 -z-10">
-        {/* Sky */}
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(180deg, #3a6dbf 0%, #5a9fd4 28%, #7ec8e3 50%, #a8d8ea 55%)"
-        }} />
-        {/* Clouds */}
-        <div className="absolute inset-0" style={{
-          background: `
-            radial-gradient(ellipse 220px 80px at 20% 25%, rgba(255,255,255,0.75) 0%, transparent 70%),
-            radial-gradient(ellipse 140px 55px at 15% 30%, rgba(255,255,255,0.55) 0%, transparent 70%),
-            radial-gradient(ellipse 180px 65px at 72% 18%, rgba(255,255,255,0.7) 0%, transparent 70%),
-            radial-gradient(ellipse 120px 45px at 78% 23%, rgba(255,255,255,0.5) 0%, transparent 70%),
-            radial-gradient(ellipse 100px 40px at 50% 12%, rgba(255,255,255,0.45) 0%, transparent 70%)
-          `
-        }} />
-        {/* Hills SVG */}
-        <svg
-          className="absolute bottom-10 left-0 w-full"
-          viewBox="0 0 1440 420"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="grass1" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#7dc142" />
-              <stop offset="100%" stopColor="#4e9622" />
-            </linearGradient>
-            <linearGradient id="grass2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#6db83a" />
-              <stop offset="100%" stopColor="#3e7c18" />
-            </linearGradient>
-          </defs>
-          {/* Back hill */}
-          <path d="M0,280 C180,160 400,100 720,140 C1040,180 1260,160 1440,200 L1440,420 L0,420 Z" fill="url(#grass2)" opacity="0.7" />
-          {/* Main hill */}
-          <path d="M0,340 C200,200 480,120 800,160 C1100,195 1300,230 1440,260 L1440,420 L0,420 Z" fill="url(#grass1)" />
-          {/* Ground */}
-          <rect x="0" y="390" width="1440" height="30" fill="#4a8f1e" />
-        </svg>
-      </div>
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage: "url('/bliss.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
 
       {/* Desktop icons area */}
       <div className="flex-1 flex flex-col justify-start pt-6 pl-4 pr-4">
