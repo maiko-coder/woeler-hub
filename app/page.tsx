@@ -537,7 +537,7 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
   return (
     <div
       className="fixed select-none"
-      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: 420 }}
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: 560 }}
       onMouseDown={() => onFocus(win.instanceId)}
     >
       {/* Drop shadow */}
@@ -851,7 +851,10 @@ export default function Home() {
         instanceId: id,
         folderId,
         zIndex: maxZ.current,
-        pos: { x: 120 + windows.length * 24, y: 80 + windows.length * 24 },
+        pos: {
+          x: Math.max(40, (window.innerWidth - 560) / 2 + windows.length * 24),
+          y: Math.max(40, (window.innerHeight - 320) / 2 + windows.length * 24 - 40),
+        },
         minimized: false,
       },
     ]);
