@@ -482,14 +482,19 @@ const folderDefs: FolderDef[] = [
 
 const groups: Group[] = [
   {
-    label: "Tools",
+    label: "Inhouse Tools",
     icons: [
       { id: "adoptimizer", name: "AdOptimizer", type: "link", url: "https://adoptimizer.nl", Icon: IconAdOptimizer },
       { id: "meta-optimizer", name: "Meta Optimizer", type: "link", url: "https://www.meta-optimizer.nl", Icon: IconMetaOptimizer },
+      { id: "intake", name: "Intake", type: "link", url: "https://intake.woeler.nl", Icon: IconIntake },
+    ],
+  },
+  {
+    label: "Tools",
+    icons: [
       { id: "monday", name: "Monday", type: "link", url: "https://monday.com", Icon: IconMonday },
       { id: "lastpass", name: "LastPass", type: "link", url: "https://www.lastpass.com", Icon: IconLastPass },
       { id: "betty", name: "Betty Blocks", type: "link", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
-      { id: "intake", name: "Intake", type: "link", url: "https://intake.woeler.nl", Icon: IconIntake },
       { id: "nmbrs", name: "Nmbrs", type: "link", url: "https://www.nmbrs.com/nl/inloggen", Icon: IconNmbrs },
     ],
   },
