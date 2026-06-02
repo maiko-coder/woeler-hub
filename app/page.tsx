@@ -992,21 +992,29 @@ export default function Home() {
         />
       ))}
 
-      {/* Desktop icons area */}
-      <div className="flex-1 flex flex-col justify-start pt-6 pl-4 pr-4">
-        <div className="flex flex-col gap-6">
+      {/* Desktop icons area — responsive columns */}
+      <div className="flex-1 overflow-y-auto pt-4 px-3 pb-2">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(100px, max-content))",
+            alignItems: "start",
+            gap: "16px 8px",
+          }}
+        >
           {groups.map((group) => (
-            <div key={group.label}>
-              {/* Subtle group label */}
-              <div className="mb-1 pl-2">
+            <div key={group.label} style={{ minWidth: 84 }}>
+              {/* Group label */}
+              <div className="mb-1 pl-1">
                 <span
-                  className="text-[10px] text-white/70 uppercase tracking-widest"
-                  style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.8)" }}
+                  className="text-[9px] text-white/65 uppercase tracking-widest whitespace-nowrap"
+                  style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.9)" }}
                 >
                   {group.label}
                 </span>
               </div>
-              <div className="flex flex-row flex-wrap gap-1">
+              {/* Icons wrap within the group column */}
+              <div className="flex flex-row flex-wrap gap-0.5">
                 {group.icons.map((icon) => (
                   <DesktopIconTile key={icon.id} icon={icon} onOpenFolder={openFolder} />
                 ))}
