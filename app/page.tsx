@@ -453,31 +453,6 @@ const folderDefs: FolderDef[] = [
     title: "Pinterest",
     items: [],
   },
-  {
-    id: "sales-folder",
-    title: "Sales",
-    items: [
-      {
-        id: "sales-sheet",
-        name: "Overzicht",
-        type: "link",
-        url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458",
-        Icon: IconSales,
-      },
-      {
-        id: "prospects-folder",
-        name: "Prospects",
-        type: "folder",
-        folderId: "prospects-folder",
-        Icon: IconFolder,
-      },
-    ],
-  },
-  {
-    id: "prospects-folder",
-    title: "Prospects",
-    items: [],
-  },
 ];
 
 const groups: Group[] = [
@@ -522,7 +497,7 @@ const groups: Group[] = [
     label: "Overzichten",
     icons: [
       { id: "masteroverzicht", name: "Masteroverzicht", type: "link", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconMasteroverzicht },
-      { id: "sales", name: "Sales", type: "folder", folderId: "sales-folder", Icon: IconFolder },
+      { id: "sales", name: "Sales", type: "link", url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458", Icon: IconSales },
     ],
   },
   {
