@@ -727,7 +727,7 @@ function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFold
 
 const allTools = groups.flatMap((g) => g.icons).filter((i) => i.type === "link");
 
-function StartMenu({ onClose }: { onClose: () => void }) {
+function StartMenu({ onClose, onOpenFolder }: { onClose: () => void; onOpenFolder: (id: string) => void }) {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -784,38 +784,57 @@ function StartMenu({ onClose }: { onClose: () => void }) {
 
         {/* Body: two columns */}
         <div className="flex" style={{ background: "#fff" }}>
-          {/* Left: pinned apps */}
-          <div className="flex-1 border-r border-gray-200 py-2">
-            <div className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 mb-1">
-              Programma&apos;s
-            </div>
-            {allTools.map((tool) => (
-              <a
-                key={tool.id}
-                href={tool.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={onClose}
-                className="flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group"
-              >
-                {/* Icon: clip a 48px XpIcon down to 22×22 */}
-                <div className="flex-shrink-0 overflow-hidden rounded" style={{ width: 22, height: 22 }}>
-                  <div style={{ transform: "scale(0.458)", transformOrigin: "top left", width: 48, height: 48 }}>
-                    <tool.Icon />
-                  </div>
+          {/* Left: grouped apps – scrollable */}
+          <div className="flex-1 border-r border-gray-200 overflow-y-auto" style={{ maxHeight: 420 }}>
+            {groups.map((group) => (
+              <div key={group.label}>
+                {/* Group label */}
+                <div className="px-3 pt-2 pb-1 text-[9px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100">
+                  {group.label}
                 </div>
-                <span
-                  className="text-[12px] text-gray-800 group-hover:text-white truncate"
-                  style={{ fontFamily: "Tahoma, sans-serif" }}
-                >
-                  {tool.name}
-                </span>
-              </a>
+                {group.icons.map((item) => {
+                  const iconEl = (
+                    <div className="flex-shrink-0 overflow-hidden rounded" style={{ width: 22, height: 22 }}>
+                      <div style={{ transform: "scale(0.458)", transformOrigin: "top left", width: 48, height: 48 }}>
+                        <item.Icon />
+                      </div>
+                    </div>
+                  );
+                  const label = (
+                    <span className="text-[12px] text-gray-800 group-hover:text-white truncate" style={{ fontFamily: "Tahoma, sans-serif" }}>
+                      {item.name}
+                    </span>
+                  );
+                  if (item.type === "folder" && item.folderId) {
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { onClose(); onOpenFolder(item.folderId!); }}
+                        className="w-full flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group text-left"
+                      >
+                        {iconEl}{label}
+                      </button>
+                    );
+                  }
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={onClose}
+                      className="flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group"
+                    >
+                      {iconEl}{label}
+                    </a>
+                  );
+                })}
+              </div>
             ))}
           </div>
 
           {/* Right: places */}
-          <div className="w-36 py-2 bg-[#dce5f5]">
+          <div className="w-36 py-2 bg-[#dce5f5] flex-shrink-0">
             <div className="px-3 py-1 text-[10px] font-bold text-[#1e3a8a] uppercase tracking-wider border-b border-[#b8caea] mb-1">
               Woeler
             </div>
@@ -1005,7 +1024,7 @@ export default function Home() {
           boxShadow: "0 -1px 0 rgba(255,255,255,0.3) inset, 0 1px 3px rgba(0,0,0,0.5)"
         }}
       >
-        {startOpen && <StartMenu onClose={() => setStartOpen(false)} />}
+        {startOpen && <StartMenu onClose={() => setStartOpen(false)} onOpenFolder={(id) => { setStartOpen(false); openFolder(id); }} />}
 
         {/* Start button */}
         <button
