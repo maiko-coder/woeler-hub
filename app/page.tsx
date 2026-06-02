@@ -511,7 +511,7 @@ const groups: Group[] = [
     ],
   },
   {
-    label: "Klanten",
+    label: "Uitgelicht",
     icons: [
       { id: "rietveld", name: "Rietveld", type: "folder", folderId: "rietveld-folder", Icon: IconFolder },
     ],
