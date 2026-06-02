@@ -55,12 +55,12 @@ export default function LoginPage() {
         <div className="h-[3px]" style={{ background: "linear-gradient(90deg, #e8a020 0%, #f5c842 50%, #e8a020 100%)" }} />
 
         {/* Split content */}
-        <div className="flex-1 flex">
+        <div className="flex-1 flex items-center justify-center">
 
           {/* LEFT PANEL */}
           <div
             className="flex flex-col items-center justify-center gap-8 px-12"
-            style={{ width: "42%", borderRight: "1px solid rgba(255,255,255,0.2)" }}
+            style={{ width: "380px", borderRight: "1px solid rgba(255,255,255,0.2)" }}
           >
             {/* Woeler W logo */}
             <div className="flex flex-col items-center gap-4">
@@ -105,7 +105,8 @@ export default function LoginPage() {
 
           {/* RIGHT PANEL – user list */}
           <div
-            className="flex-1 flex flex-col justify-center px-12 gap-4"
+            className="flex flex-col justify-center px-12 gap-4"
+            style={{ width: "380px" }}
           >
             {!selected ? (
               /* User tile – click to expand */
