@@ -324,6 +324,19 @@ function IconCanva() {
   );
 }
 
+function IconFireflies() {
+  return (
+    <XpIcon from="#6c3fc5" to="#3d1a8a">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white" fillOpacity={0.95}>
+        <path d="M12 3c-1.2 2.4-3.5 3.8-6 4 2 1.5 3.2 3.8 3 6.5 1.8-2 4.5-3 7-2.5-1.5-2-1.8-4.8-.5-7C14.5 5.5 13.2 4 12 3z" />
+        <circle cx="17.5" cy="6" r="1.5" fillOpacity={0.7} />
+        <circle cx="7" cy="17" r="1.2" fillOpacity={0.6} />
+        <circle cx="19" cy="15" r="1" fillOpacity={0.5} />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -514,6 +527,7 @@ const groups: Group[] = [
       { id: "gemini", name: "Gemini", type: "link", url: "https://gemini.google.com", Icon: IconGemini },
       { id: "envato", name: "Envato", type: "link", url: "https://app.envato.com", Icon: IconEnvato },
       { id: "canva", name: "Canva", type: "link", url: "https://www.canva.com", Icon: IconCanva },
+      { id: "fireflies", name: "Fireflies", type: "link", url: "https://fireflies.ai", Icon: IconFireflies },
     ],
   },
   {
