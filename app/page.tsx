@@ -161,6 +161,11 @@ interface FolderDef {
 
 const folderDefs: FolderDef[] = [
   {
+    id: "rietveld-folder",
+    title: "Rietveld",
+    items: [],
+  },
+  {
     id: "sales-folder",
     title: "Sales",
     items: [
@@ -203,6 +208,12 @@ const groups: Group[] = [
     icons: [
       { id: "masteroverzicht", name: "Masteroverzicht", type: "link", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconMasteroverzicht },
       { id: "sales", name: "Sales", type: "folder", folderId: "sales-folder", Icon: IconFolder },
+    ],
+  },
+  {
+    label: "Klanten",
+    icons: [
+      { id: "rietveld", name: "Rietveld", type: "folder", folderId: "rietveld-folder", Icon: IconFolder },
     ],
   },
   {
