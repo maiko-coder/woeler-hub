@@ -738,6 +738,22 @@ const allTools = groups.flatMap((g) => g.icons).filter((i) => i.type === "link")
 
 function StartMenu({ onClose }: { onClose: () => void }) {
   const router = useRouter();
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => { if (data?.name) setUserName(data.name); })
+      .catch(() => {});
+  }, []);
+
+  const displayName = userName ?? "Woeler";
+  const initials = displayName
+    .split(" ")
+    .map((w: string) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   async function handleLogout() {
     onClose();
@@ -767,10 +783,10 @@ function StartMenu({ onClose }: { onClose: () => void }) {
             className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
             style={{ background: "linear-gradient(145deg, #FF6B1A, #c04a00)" }}
           >
-            W
+            {initials}
           </div>
           <div>
-            <div className="text-white font-bold text-sm" style={{ fontFamily: "Tahoma, sans-serif" }}>Woeler</div>
+            <div className="text-white font-bold text-sm" style={{ fontFamily: "Tahoma, sans-serif" }}>{displayName}</div>
             <div className="text-white/70 text-[11px]" style={{ fontFamily: "Tahoma, sans-serif" }}>Hub gebruiker</div>
           </div>
         </div>
