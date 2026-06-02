@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import MinesweeperGame from "./_components/MinesweeperGame";
 
 // ── XP-style coloured app icons (SVG with gradient fills) ────────────────────
 
@@ -373,6 +374,27 @@ function IconMerchant() {
   );
 }
 
+function IconMinesweeper() {
+  return (
+    <XpIcon from="#4a9a4a" to="#1a6a1a">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none">
+        {/* Grid */}
+        <rect x="3" y="3" width="18" height="18" rx="2" fill="white" fillOpacity={0.15} stroke="white" strokeWidth={1.5} />
+        <line x1="3" y1="9" x2="21" y2="9" stroke="white" strokeWidth={1} strokeOpacity={0.7} />
+        <line x1="3" y1="15" x2="21" y2="15" stroke="white" strokeWidth={1} strokeOpacity={0.7} />
+        <line x1="9" y1="3" x2="9" y2="21" stroke="white" strokeWidth={1} strokeOpacity={0.7} />
+        <line x1="15" y1="3" x2="15" y2="21" stroke="white" strokeWidth={1} strokeOpacity={0.7} />
+        {/* Mine */}
+        <circle cx="12" cy="12" r="3" fill="white" />
+        <line x1="12" y1="7" x2="12" y2="17" stroke="white" strokeWidth={1.5} strokeLinecap="round" />
+        <line x1="7" y1="12" x2="17" y2="12" stroke="white" strokeWidth={1.5} strokeLinecap="round" />
+        <line x1="8.9" y1="8.9" x2="15.1" y2="15.1" stroke="white" strokeWidth={1.5} strokeLinecap="round" />
+        <line x1="15.1" y1="8.9" x2="8.9" y2="15.1" stroke="white" strokeWidth={1.5} strokeLinecap="round" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -418,7 +440,7 @@ function IconDocGoal() {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
-type IconType = "link" | "folder";
+type IconType = "link" | "folder" | "game";
 
 interface DesktopIcon {
   id: string;
@@ -426,6 +448,7 @@ interface DesktopIcon {
   type: IconType;
   url?: string;
   folderId?: string;
+  desktopHidden?: boolean;
   Icon: () => React.ReactElement;
 }
 
@@ -543,6 +566,7 @@ const groups: Group[] = [
       { id: "analytics", name: "Analytics", type: "link", url: "https://analytics.google.com", Icon: IconAnalytics },
       { id: "tagmanager", name: "Tag Manager", type: "link", url: "https://tagmanager.google.com", Icon: IconTagManager },
       { id: "merchant", name: "Merchant", type: "link", url: "https://merchants.google.com", Icon: IconMerchant },
+      { id: "minesweeper", name: "Minesweeper", type: "game", desktopHidden: true, Icon: IconMinesweeper },
     ],
   },
   {
@@ -581,7 +605,8 @@ const groups: Group[] = [
 
 interface WinState {
   instanceId: string;
-  folderId: string;
+  type: "folder" | "minesweeper";
+  folderId?: string;
   zIndex: number;
   pos: { x: number; y: number };
   minimized: boolean;
@@ -597,7 +622,7 @@ interface XpWindowProps {
 }
 
 function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: XpWindowProps) {
-  const folder = folderDefs.find((f) => f.id === win.folderId)!;
+  const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;;
   const dragging = useRef(false);
   const dragOffset = useRef({ dx: 0, dy: 0 });
 
@@ -630,7 +655,7 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
   return (
     <div
       className="fixed select-none"
-      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: 560 }}
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 560 }}
       onMouseDown={() => onFocus(win.instanceId)}
     >
       {/* Drop shadow */}
@@ -645,13 +670,17 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
           }}
           onMouseDown={startDrag}
         >
-          {/* Folder icon */}
-          <svg viewBox="0 0 20 16" className="w-5 h-4 flex-shrink-0">
-            <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
-            <path d="M1 5.5 L19 5.5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F9D959" />
-          </svg>
+          {/* Title icon */}
+          {win.type === "minesweeper" ? (
+            <span className="text-base flex-shrink-0">💣</span>
+          ) : (
+            <svg viewBox="0 0 20 16" className="w-5 h-4 flex-shrink-0">
+              <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
+              <path d="M1 5.5 L19 5.5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F9D959" />
+            </svg>
+          )}
           <span className="text-white text-sm font-bold flex-1 truncate" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
-            {folder.title}
+            {win.type === "minesweeper" ? "Minesweeper" : folder?.title ?? ""}
           </span>
           {/* Window controls */}
           <div className="flex gap-1.5">
@@ -675,54 +704,63 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
           </div>
         </div>
 
-        {/* Address bar */}
-        <div
-          className="flex items-center gap-2 px-3 py-1.5 text-[11px] text-gray-700"
-          style={{ background: "#ece9d8", borderBottom: "1px solid #b0a890" }}
-        >
-          <span className="text-gray-500">Adres:</span>
-          <span className="font-semibold">Bureaublad \ {folder.title}</span>
-        </div>
-
-        {/* Content */}
-        <div
-          className="min-h-[160px] p-4"
-          style={{ background: "white", borderTop: "1px solid #dfdfdf" }}
-        >
-          {folder.items.length === 0 ? (
-            <div className="flex items-center justify-center h-24 text-gray-400 text-xs italic">
-              Deze map is leeg
+        {win.type === "minesweeper" ? (
+          /* Minesweeper content */
+          <div className="flex items-center justify-center p-3" style={{ background: "#c0c0c0" }}>
+            <MinesweeperGame />
+          </div>
+        ) : (
+          <>
+            {/* Address bar */}
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 text-[11px] text-gray-700"
+              style={{ background: "#ece9d8", borderBottom: "1px solid #b0a890" }}
+            >
+              <span className="text-gray-500">Adres:</span>
+              <span className="font-semibold">Bureaublad \ {folder?.title}</span>
             </div>
-          ) : (
-            <div className="flex flex-wrap gap-4">
-              {folder.items.map((item) => (
-                <button
-                  key={item.id}
-                  className="flex flex-col items-center gap-1.5 w-20 p-2 rounded cursor-pointer group hover:bg-[#dce8f8] transition-colors"
-                  onClick={() => {
-                    if (item.type === "link" && item.url) window.open(item.url, "_blank");
-                    else if (item.type === "folder" && item.folderId) onOpenFolder(item.folderId);
-                  }}
-                >
-                  <div className="group-hover:brightness-105 transition-all">
-                    <item.Icon />
-                  </div>
-                  <span className="text-[11px] text-gray-800 text-center leading-tight break-words max-w-full">
-                    {item.name}
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
 
-        {/* Status bar */}
-        <div
-          className="px-3 py-1 text-[10px] text-gray-600"
-          style={{ background: "#ece9d8", borderTop: "1px solid #b0a890" }}
-        >
-          {folder.items.length} object{folder.items.length !== 1 ? "en" : ""}
-        </div>
+            {/* Content */}
+            <div
+              className="min-h-[160px] p-4"
+              style={{ background: "white", borderTop: "1px solid #dfdfdf" }}
+            >
+              {!folder || folder.items.length === 0 ? (
+                <div className="flex items-center justify-center h-24 text-gray-400 text-xs italic">
+                  Deze map is leeg
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-4">
+                  {folder.items.map((item) => (
+                    <button
+                      key={item.id}
+                      className="flex flex-col items-center gap-1.5 w-20 p-2 rounded cursor-pointer group hover:bg-[#dce8f8] transition-colors"
+                      onClick={() => {
+                        if (item.type === "link" && item.url) window.open(item.url, "_blank");
+                        else if (item.type === "folder" && item.folderId) onOpenFolder(item.folderId);
+                      }}
+                    >
+                      <div className="group-hover:brightness-105 transition-all">
+                        <item.Icon />
+                      </div>
+                      <span className="text-[11px] text-gray-800 text-center leading-tight break-words max-w-full">
+                        {item.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Status bar */}
+            <div
+              className="px-3 py-1 text-[10px] text-gray-600"
+              style={{ background: "#ece9d8", borderTop: "1px solid #b0a890" }}
+            >
+              {folder?.items.length ?? 0} object{(folder?.items.length ?? 0) !== 1 ? "en" : ""}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -732,6 +770,8 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
 
 function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFolder: (id: string) => void }) {
   const [selected, setSelected] = useState(false);
+
+  if (icon.desktopHidden) return null;
 
   function handleClick(e: React.MouseEvent) {
     setSelected(true);
@@ -780,7 +820,7 @@ function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFold
 
 const allTools = groups.flatMap((g) => g.icons).filter((i) => i.type === "link");
 
-function StartMenu({ onClose, onOpenFolder }: { onClose: () => void; onOpenFolder: (id: string) => void }) {
+function StartMenu({ onClose, onOpenFolder, onOpenGame }: { onClose: () => void; onOpenFolder: (id: string) => void; onOpenGame: (gameId: string) => void }) {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -863,6 +903,17 @@ function StartMenu({ onClose, onOpenFolder }: { onClose: () => void; onOpenFolde
                       <button
                         key={item.id}
                         onClick={() => { onClose(); onOpenFolder(item.folderId!); }}
+                        className="w-full flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group text-left"
+                      >
+                        {iconEl}{label}
+                      </button>
+                    );
+                  }
+                  if (item.type === "game") {
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { onClose(); onOpenGame(item.id); }}
                         className="w-full flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group text-left"
                       >
                         {iconEl}{label}
@@ -965,23 +1016,40 @@ export default function Home() {
   const maxZ = useRef(100);
 
   function openFolder(folderId: string) {
-    // Bring existing window to front instead of duplicating
-    const existing = windows.find((w) => w.folderId === folderId && !w.minimized);
-    if (existing) {
-      focusWindow(existing.instanceId);
-      return;
-    }
+    const existing = windows.find((w) => w.type === "folder" && w.folderId === folderId && !w.minimized);
+    if (existing) { focusWindow(existing.instanceId); return; }
     maxZ.current += 1;
     const id = `win-${++winCounter}`;
     setWindows((ws) => [
       ...ws,
       {
         instanceId: id,
+        type: "folder",
         folderId,
         zIndex: maxZ.current,
         pos: {
-          x: Math.max(40, (window.innerWidth - 560) / 2 + windows.length * 24),
-          y: Math.max(40, (window.innerHeight - 320) / 2 + windows.length * 24 - 40),
+          x: Math.max(40, (window.innerWidth - 560) / 2 + ws.length * 24),
+          y: Math.max(40, (window.innerHeight - 320) / 2 + ws.length * 24 - 40),
+        },
+        minimized: false,
+      },
+    ]);
+  }
+
+  function openMinesweeper() {
+    const existing = windows.find((w) => w.type === "minesweeper" && !w.minimized);
+    if (existing) { focusWindow(existing.instanceId); return; }
+    maxZ.current += 1;
+    const id = `win-${++winCounter}`;
+    setWindows((ws) => [
+      ...ws,
+      {
+        instanceId: id,
+        type: "minesweeper",
+        zIndex: maxZ.current,
+        pos: {
+          x: Math.max(40, (window.innerWidth - 260) / 2 + ws.length * 24),
+          y: Math.max(80, (window.innerHeight - 320) / 2 + ws.length * 24 - 40),
         },
         minimized: false,
       },
@@ -1085,7 +1153,7 @@ export default function Home() {
           boxShadow: "0 -1px 0 rgba(255,255,255,0.3) inset, 0 1px 3px rgba(0,0,0,0.5)"
         }}
       >
-        {startOpen && <StartMenu onClose={() => setStartOpen(false)} onOpenFolder={(id) => { setStartOpen(false); openFolder(id); }} />}
+        {startOpen && <StartMenu onClose={() => setStartOpen(false)} onOpenFolder={(id) => { setStartOpen(false); openFolder(id); }} onOpenGame={(id) => { setStartOpen(false); if (id === "minesweeper") openMinesweeper(); }} />}
 
         {/* Start button */}
         <button
@@ -1114,7 +1182,8 @@ export default function Home() {
         {/* Open windows in taskbar */}
         <div className="flex items-center gap-1 flex-1 px-1 overflow-x-auto overflow-y-hidden">
           {windows.map((win) => {
-            const folder = folderDefs.find((f) => f.id === win.folderId);
+            const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
+            const title = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? win.folderId ?? "Venster");
             return (
               <button
                 key={win.instanceId}
@@ -1128,10 +1197,14 @@ export default function Home() {
                   fontSize: 11,
                 }}
               >
-                <svg viewBox="0 0 20 16" className="w-3.5 h-3 flex-shrink-0">
-                  <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
-                </svg>
-                {folder?.title ?? win.folderId}
+                {win.type === "minesweeper" ? (
+                  <span className="text-xs flex-shrink-0">💣</span>
+                ) : (
+                  <svg viewBox="0 0 20 16" className="w-3.5 h-3 flex-shrink-0">
+                    <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
+                  </svg>
+                )}
+                {title}
               </button>
             );
           })}
