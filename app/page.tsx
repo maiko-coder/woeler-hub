@@ -1050,12 +1050,12 @@ function FlatIcon({ Icon }: { Icon: () => React.ReactElement }) {
     <div
       style={{
         width: 44, height: 44, borderRadius: 11,
-        background: "rgba(255,255,255,0.07)",
+        background: "rgba(0,0,0,0.05)",
         display: "flex", alignItems: "center", justifyContent: "center",
         overflow: "hidden",
       }}
     >
-      <div style={{ filter: "grayscale(1) brightness(1.6) contrast(0.75)", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ filter: "grayscale(1) brightness(0.65) contrast(1.1)", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ transform: "scale(0.9)", transformOrigin: "center" }}>
           <Icon />
         </div>
@@ -1100,11 +1100,11 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
       style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 560 }}
       onMouseDown={() => onFocus(win.instanceId)}
     >
-      <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 24px 60px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.08)", border: "0.5px solid rgba(255,255,255,0.1)" }}>
+      <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 0 0 0.5px rgba(0,0,0,0.08)" }}>
         {/* Title bar */}
         <div
           className="flex items-center px-4 gap-3 cursor-move"
-          style={{ height: 42, background: "#1c1c1e", borderBottom: "0.5px solid rgba(255,255,255,0.07)" }}
+          style={{ height: 42, background: "#f5f5f7", borderBottom: "0.5px solid rgba(0,0,0,0.08)" }}
           onMouseDown={startDrag}
         >
           <div className="flex gap-1.5 flex-shrink-0">
@@ -1116,7 +1116,7 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
             </button>
             <div className="w-3 h-3 rounded-full" style={{ background: "#28c840", opacity: 0.35 }} />
           </div>
-          <span className="flex-1 text-center text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.6)", letterSpacing: "-0.01em" }}>
+          <span className="flex-1 text-center text-[13px] font-medium" style={{ color: "rgba(0,0,0,0.55)", letterSpacing: "-0.01em" }}>
             {title}
           </span>
           <div className="w-14 flex-shrink-0" />
@@ -1124,13 +1124,13 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
 
         {/* Content */}
         {win.type === "minesweeper" ? (
-          <div className="flex items-center justify-center p-5" style={{ background: "#141416" }}>
+          <div className="flex items-center justify-center p-5" style={{ background: "#ffffff" }}>
             <MinesweeperGame />
           </div>
         ) : (
-          <div className="p-5 min-h-[200px]" style={{ background: "#141416" }}>
+          <div className="p-5 min-h-[200px]" style={{ background: "#ffffff" }}>
             {!folder || folder.items.length === 0 ? (
-              <div className="flex items-center justify-center h-24 text-[13px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+              <div className="flex items-center justify-center h-24 text-[13px]" style={{ color: "rgba(0,0,0,0.25)" }}>
                 Deze map is leeg
               </div>
             ) : (
@@ -1140,7 +1140,7 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
                     key={item.id}
                     className="flex flex-col items-center gap-2 w-[72px] p-2 rounded-xl cursor-pointer transition-all"
                     style={{ background: "transparent" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)")}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                     onClick={() => {
                       if (item.type === "link" && item.url) window.open(item.url, "_blank");
@@ -1148,7 +1148,7 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
                     }}
                   >
                     <FlatIcon Icon={item.Icon} />
-                    <span className="text-[10px] text-center leading-tight break-words max-w-full" style={{ color: "rgba(255,255,255,0.5)" }}>
+                    <span className="text-[10px] text-center leading-tight break-words max-w-full" style={{ color: "rgba(0,0,0,0.45)" }}>
                       {item.name}
                     </span>
                   </button>
@@ -1176,17 +1176,17 @@ function ModernMenuBar({ onSwitchTheme, searchQuery, onSearchChange }: {
   return (
     <div
       className="flex items-center px-5 gap-4 z-50 flex-shrink-0 select-none"
-      style={{ height: 44, background: "#0d1117", borderBottom: "0.5px solid rgba(255,255,255,0.06)" }}
+      style={{ height: 44, background: "#ffffff", borderBottom: "0.5px solid rgba(0,0,0,0.08)" }}
     >
       {/* Logo */}
       <div className="flex items-center gap-2.5 flex-shrink-0">
         <div className="w-6 h-6 rounded-md flex items-center justify-center text-white font-black text-sm" style={{ background: "linear-gradient(145deg, #FF8C3A, #CC4A00)", fontSize: 13 }}>W</div>
-        <span className="font-semibold text-[13px]" style={{ color: "rgba(255,255,255,0.7)", letterSpacing: "-0.01em" }}>Woeler Hub</span>
+        <span className="font-semibold text-[13px]" style={{ color: "rgba(0,0,0,0.7)", letterSpacing: "-0.01em" }}>Woeler Hub</span>
       </div>
 
       {/* Search */}
       <div className="flex-1 max-w-xs mx-auto relative">
-        <svg viewBox="0 0 16 16" className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth={1.5}>
+        <svg viewBox="0 0 16 16" className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth={1.5}>
           <circle cx="6.5" cy="6.5" r="4.5" /><line x1="10" y1="10" x2="14" y2="14" />
         </svg>
         <input
@@ -1194,21 +1194,21 @@ function ModernMenuBar({ onSwitchTheme, searchQuery, onSearchChange }: {
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Zoeken…"
           className="w-full pl-8 pr-3 py-1.5 rounded-lg text-[12px] outline-none"
-          style={{ background: "rgba(255,255,255,0.07)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.75)", caretColor: "white" }}
+          style={{ background: "rgba(0,0,0,0.04)", border: "0.5px solid rgba(0,0,0,0.1)", color: "rgba(0,0,0,0.7)", caretColor: "#000" }}
         />
       </div>
 
       {/* Right */}
-      <div className="flex items-center gap-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12 }}>
-        <span style={{ color: "rgba(255,255,255,0.55)" }}>
+      <div className="flex items-center gap-4 flex-shrink-0" style={{ color: "rgba(0,0,0,0.4)", fontSize: 12 }}>
+        <span style={{ color: "rgba(0,0,0,0.55)" }}>
           {time.toLocaleTimeString("nl-NL", { weekday: "short", hour: "2-digit", minute: "2-digit" })}
         </span>
         <button
           onClick={onSwitchTheme}
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium transition-all"
-          style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.45)", border: "0.5px solid rgba(255,255,255,0.1)" }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.12)"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.07)"; }}
+          style={{ background: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.45)", border: "0.5px solid rgba(0,0,0,0.1)" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,0,0,0.09)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,0,0,0.05)"; }}
           title="Wisselen naar Windows XP"
         >
           XP
@@ -1317,9 +1317,9 @@ export default function Home() {
       .filter((g) => g.icons.length > 0);
 
     return (
-      <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif", background: "#0d1117" }}>
-        {/* Subtle background texture */}
-        <div className="absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,100,200,0.12) 0%, transparent 60%), #0d1117" }} />
+      <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif", background: "#f5f5f7" }}>
+        {/* Subtle background */}
+        <div className="absolute inset-0 -z-10" style={{ background: "#f5f5f7" }} />
 
         {/* Floating ModernWindows */}
         {windows.map((win) => (
@@ -1335,10 +1335,10 @@ export default function Home() {
               <div key={group.label} className="mb-8">
                 {/* Group header */}
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.22)", whiteSpace: "nowrap" }}>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: "rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
                     {group.label}
                   </span>
-                  <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
+                  <div className="flex-1 h-px" style={{ background: "rgba(0,0,0,0.07)" }} />
                 </div>
 
                 {/* Icons */}
@@ -1349,13 +1349,13 @@ export default function Home() {
                     const iconEl = (
                       <>
                         <FlatIcon Icon={icon.Icon} />
-                        <span className="text-[11px] text-center leading-tight w-full truncate" style={{ color: "rgba(255,255,255,0.45)" }}>
+                        <span className="text-[11px] text-center leading-tight w-full truncate" style={{ color: "rgba(0,0,0,0.45)" }}>
                           {icon.name}
                         </span>
                       </>
                     );
 
-                    const hoverIn = (e: React.MouseEvent<HTMLElement>) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)");
+                    const hoverIn = (e: React.MouseEvent<HTMLElement>) => (e.currentTarget.style.background = "rgba(0,0,0,0.05)");
                     const hoverOut = (e: React.MouseEvent<HTMLElement>) => (e.currentTarget.style.background = "transparent");
 
                     if (icon.type === "folder" && icon.folderId) {
@@ -1388,9 +1388,9 @@ export default function Home() {
         {windows.length > 0 && (
           <div
             className="flex items-center gap-2 px-5 flex-shrink-0"
-            style={{ height: 44, background: "#0d1117", borderTop: "0.5px solid rgba(255,255,255,0.06)" }}
+            style={{ height: 44, background: "#ffffff", borderTop: "0.5px solid rgba(0,0,0,0.08)" }}
           >
-            <span className="text-[10px] uppercase tracking-widest mr-2 flex-shrink-0" style={{ color: "rgba(255,255,255,0.2)" }}>Open</span>
+            <span className="text-[10px] uppercase tracking-widest mr-2 flex-shrink-0" style={{ color: "rgba(0,0,0,0.25)" }}>Open</span>
             {windows.map((win) => {
               const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
               const label = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? "Venster");
@@ -1400,12 +1400,12 @@ export default function Home() {
                   onClick={() => win.minimized ? restoreWindow(win.instanceId) : minimizeWindow(win.instanceId)}
                   className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-[12px] transition-all flex-shrink-0"
                   style={{
-                    background: win.minimized ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.1)",
-                    color: win.minimized ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.7)",
-                    border: "0.5px solid rgba(255,255,255,0.1)",
+                    background: win.minimized ? "rgba(0,0,0,0.04)" : "rgba(0,0,0,0.08)",
+                    color: win.minimized ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.65)",
+                    border: "0.5px solid rgba(0,0,0,0.1)",
                   }}
                 >
-                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: win.minimized ? "rgba(255,255,255,0.2)" : "#28c840" }} />
+                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: win.minimized ? "rgba(0,0,0,0.2)" : "#28c840" }} />
                   {label}
                 </button>
               );
