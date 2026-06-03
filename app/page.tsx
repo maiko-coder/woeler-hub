@@ -1055,7 +1055,7 @@ function FlatIcon({ Icon }: { Icon: () => React.ReactElement }) {
         overflow: "hidden",
       }}
     >
-      <div style={{ filter: "grayscale(1) brightness(0.65) contrast(1.1)", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ filter: "saturate(0.85) brightness(1.05)", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ transform: "scale(0.9)", transformOrigin: "center" }}>
           <Icon />
         </div>
@@ -1185,16 +1185,16 @@ function ModernMenuBar({ onSwitchTheme, searchQuery, onSearchChange }: {
       </div>
 
       {/* Search */}
-      <div className="flex-1 max-w-xs mx-auto relative">
-        <svg viewBox="0 0 16 16" className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth={1.5}>
+      <div className="flex items-center gap-2 flex-1 max-w-xs mx-auto px-3 py-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.05)", border: "0.5px solid rgba(0,0,0,0.1)" }}>
+        <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 flex-shrink-0 pointer-events-none" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth={1.5}>
           <circle cx="6.5" cy="6.5" r="4.5" /><line x1="10" y1="10" x2="14" y2="14" />
         </svg>
         <input
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Zoeken…"
-          className="w-full pl-8 pr-3 py-1.5 rounded-lg text-[12px] outline-none"
-          style={{ background: "rgba(0,0,0,0.04)", border: "0.5px solid rgba(0,0,0,0.1)", color: "rgba(0,0,0,0.7)", caretColor: "#000" }}
+          className="flex-1 text-[12px] outline-none bg-transparent"
+          style={{ color: "rgba(0,0,0,0.7)", caretColor: "#000" }}
         />
       </div>
 
@@ -1329,8 +1329,8 @@ export default function Home() {
         <ModernMenuBar onSwitchTheme={switchTheme} searchQuery={modernSearch} onSearchChange={setModernSearch} />
 
         {/* App grid */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto px-8 pt-8 pb-24">
+        <div className="flex-1 overflow-y-auto flex flex-col items-center justify-center">
+          <div className="w-full max-w-3xl px-8 py-10">
             {filteredGroups.map((group) => (
               <div key={group.label} className="mb-8">
                 {/* Group header */}
