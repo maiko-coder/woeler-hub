@@ -166,6 +166,21 @@ function IconMetaAds() {
   );
 }
 
+function IconMetaContentCalendar() {
+  return (
+    <XpIcon from="#1877F2" to="#0c52bb">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" fill="white" fillOpacity={0.12} />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+        <rect x="7" y="14" width="3" height="3" rx="0.5" fill="white" fillOpacity={0.7} stroke="none" />
+        <rect x="14" y="14" width="3" height="3" rx="0.5" fill="white" fillOpacity={0.4} stroke="none" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconPinterestAds() {
   return (
     <XpIcon from="#e60023" to="#a3001a">
@@ -605,6 +620,12 @@ const groups: Group[] = [
       { id: "envato", name: "Envato", type: "link", url: "https://app.envato.com", Icon: IconEnvato },
       { id: "canva", name: "Canva", type: "link", url: "https://www.canva.com", Icon: IconCanva },
       { id: "fireflies", name: "Fireflies", type: "link", url: "https://fireflies.ai", Icon: IconFireflies },
+    ],
+  },
+  {
+    label: "Content",
+    icons: [
+      { id: "meta-content-calendar", name: "Meta Kalender", type: "link", url: "https://business.facebook.com/latest/content_calendar", Icon: IconMetaContentCalendar },
     ],
   },
   {
