@@ -103,6 +103,20 @@ function IconAuto() {
   );
 }
 
+function IconRooms() {
+  return (
+    <XpIcon from="#a78bfa" to="#5b21b6">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="7" width="18" height="14" rx="1" fill="white" fillOpacity={0.15} />
+        <path d="M3 10h18" />
+        <path d="M8 7V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3" />
+        <rect x="9" y="13" width="6" height="5" rx="0.5" fill="white" fillOpacity={0.4} />
+        <line x1="12" y1="13" x2="12" y2="18" />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconNmbrs() {
   return (
     <XpIcon from="#00c9a7" to="#007a63">
@@ -594,9 +608,10 @@ const groups: Group[] = [
     ],
   },
   {
-    label: "Auto",
+    label: "Intern",
     icons: [
       { id: "auto", name: "Pool auto", type: "link", url: "https://auto.woeler.nl", Icon: IconAuto },
+      { id: "rooms", name: "Rooms", type: "link", url: "https://reservations.bettywebblocks.com/calendars/room", Icon: IconRooms },
     ],
   },
 ];
