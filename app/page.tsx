@@ -1021,12 +1021,362 @@ function TaskbarClock() {
   );
 }
 
+// ── Modern macOS-style theme ──────────────────────────────────────────────────
+
+// Curated dock items (visible without launchpad)
+const DOCK_APPS: DesktopIcon[] = [
+  { id: "adoptimizer",    name: "AdOptimizer",  type: "link", url: "https://www.adoptimizer.nl",          Icon: IconAdOptimizer },
+  { id: "metaoptimizer",  name: "Meta Opt.",    type: "link", url: "https://www.meta-optimizer.nl",        Icon: IconMetaOptimizer },
+  { id: "intake",         name: "Intake",       type: "link", url: "https://intake.woeler.nl",             Icon: IconIntake },
+  { id: "gmail",          name: "Gmail",        type: "link", url: "https://mail.google.com",              Icon: IconGmail },
+  { id: "sheets",         name: "Sheets",       type: "link", url: "https://docs.google.com/spreadsheets", Icon: IconGoogleSheets },
+  { id: "drive",          name: "Drive",        type: "link", url: "https://drive.google.com",             Icon: IconGoogleDrive },
+  { id: "google-ads-d",   name: "Google Ads",   type: "link", url: "https://ads.google.com",              Icon: IconGoogleAds },
+  { id: "meta-ads-d",     name: "Meta Ads",     type: "link", url: "https://adsmanager.facebook.com",     Icon: IconMetaAds },
+  { id: "monday-d",       name: "Monday",       type: "link", url: "https://monday.com",                  Icon: IconMonday },
+  { id: "claude-d",       name: "Claude",       type: "link", url: "https://claude.ai",                   Icon: IconClaude },
+  { id: "rietveld-d",     name: "Rietveld",     type: "folder", folderId: "rietveld-folder",              Icon: IconFolder },
+];
+
+function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: XpWindowProps) {
+  const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
+  const dragging = useRef(false);
+  const dragOffset = useRef({ dx: 0, dy: 0 });
+
+  function startDrag(e: React.MouseEvent) {
+    dragging.current = true;
+    dragOffset.current = { dx: e.clientX - win.pos.x, dy: e.clientY - win.pos.y };
+    onFocus(win.instanceId);
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    function onMouseMove(e: MouseEvent) {
+      if (!dragging.current) return;
+      onMove(win.instanceId, { x: e.clientX - dragOffset.current.dx, y: e.clientY - dragOffset.current.dy });
+    }
+    function onMouseUp() { dragging.current = false; }
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [win.instanceId, onMove]);
+
+  if (win.minimized) return null;
+
+  const title = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? "");
+
+  return (
+    <div
+      className="fixed select-none"
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 580, minWidth: win.type === "minesweeper" ? undefined : 400 }}
+      onMouseDown={() => onFocus(win.instanceId)}
+    >
+      <div style={{ borderRadius: 14, overflow: "hidden", boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.12)" }}>
+        {/* Title bar */}
+        <div
+          className="flex items-center px-4 cursor-move"
+          style={{ height: 44, background: "rgba(30,30,30,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderBottom: "0.5px solid rgba(255,255,255,0.1)" }}
+          onMouseDown={startDrag}
+        >
+          {/* Traffic lights */}
+          <div className="flex gap-2 flex-shrink-0">
+            <button onClick={() => onClose(win.instanceId)} className="group w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#ff5f57" }} title="Sluiten">
+              <svg viewBox="0 0 8 8" className="w-1.5 h-1.5 opacity-0 group-hover:opacity-100" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth={1.5}><line x1="1.5" y1="1.5" x2="6.5" y2="6.5" /><line x1="6.5" y1="1.5" x2="1.5" y2="6.5" /></svg>
+            </button>
+            <button onClick={() => onMinimize(win.instanceId)} className="group w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#febc2e" }} title="Minimaliseren">
+              <svg viewBox="0 0 8 8" className="w-1.5 h-1.5 opacity-0 group-hover:opacity-100" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth={1.5}><line x1="1.5" y1="4" x2="6.5" y2="4" /></svg>
+            </button>
+            <div className="w-3 h-3 rounded-full opacity-40" style={{ background: "#28c840" }} />
+          </div>
+          {/* Centered title */}
+          <div className="flex-1 text-center">
+            <span className="text-[13px] font-semibold text-white/80" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" }}>
+              {title}
+            </span>
+          </div>
+          <div className="w-16 flex-shrink-0" />
+        </div>
+
+        {/* Content */}
+        {win.type === "minesweeper" ? (
+          <div className="flex items-center justify-center p-4" style={{ background: "rgba(28,28,30,0.95)" }}>
+            <MinesweeperGame />
+          </div>
+        ) : (
+          <div className="p-5 min-h-[200px]" style={{ background: "rgba(28,28,30,0.92)" }}>
+            {!folder || folder.items.length === 0 ? (
+              <div className="flex items-center justify-center h-24 text-white/30 text-sm italic">Deze map is leeg</div>
+            ) : (
+              <div className="flex flex-wrap gap-4">
+                {folder.items.map((item) => (
+                  <button
+                    key={item.id}
+                    className="flex flex-col items-center gap-2 w-20 p-2 rounded-xl cursor-pointer group transition-colors"
+                    style={{ background: "transparent" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    onClick={() => {
+                      if (item.type === "link" && item.url) window.open(item.url, "_blank");
+                      else if (item.type === "folder" && item.folderId) onOpenFolder(item.folderId);
+                    }}
+                  >
+                    <item.Icon />
+                    <span className="text-[11px] text-white/70 text-center leading-tight break-words max-w-full" style={{ fontFamily: "-apple-system, sans-serif" }}>
+                      {item.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ModernMenuBar({ onSwitchTheme }: { onSwitchTheme: () => void }) {
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    const t = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <div
+      className="flex items-center px-4 z-50 flex-shrink-0 select-none"
+      style={{ height: 28, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "0.5px solid rgba(255,255,255,0.1)" }}
+    >
+      {/* Left: logo + app name */}
+      <div className="flex items-center gap-3 text-white">
+        <span className="font-black text-base tracking-tight" style={{ fontFamily: "-apple-system, sans-serif" }}>W</span>
+        <span className="font-semibold text-[13px] opacity-90" style={{ fontFamily: "-apple-system, sans-serif" }}>Woeler Hub</span>
+      </div>
+
+      {/* Right: status bar */}
+      <div className="ml-auto flex items-center gap-4 text-white/80 text-[13px]" style={{ fontFamily: "-apple-system, sans-serif" }}>
+        {/* Switch to XP */}
+        <button
+          onClick={onSwitchTheme}
+          className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors text-[12px] px-2 py-0.5 rounded-md hover:bg-white/10"
+          title="Wisselen naar Windows XP"
+        >
+          <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="currentColor">
+            <rect x="1" y="1" width="6.5" height="6.5" rx="0.5" opacity={0.8} />
+            <rect x="8.5" y="1" width="6.5" height="6.5" rx="0.5" />
+            <rect x="1" y="8.5" width="6.5" height="6.5" rx="0.5" />
+            <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="0.5" opacity={0.8} />
+          </svg>
+          <span>XP</span>
+        </button>
+        <span className="text-white/30">|</span>
+        <span>{time.toLocaleTimeString("nl-NL", { weekday: "short", hour: "2-digit", minute: "2-digit" })}</span>
+        <span className="text-white/50 text-[12px]">{time.toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" })}</span>
+      </div>
+    </div>
+  );
+}
+
+function ModernLaunchpad({ onClose, onOpenFolder }: { onClose: () => void; onOpenFolder: (id: string) => void }) {
+  const [query, setQuery] = useState("");
+  const filtered = groups.map((g) => ({
+    ...g,
+    icons: g.icons.filter(
+      (i) => !i.desktopHidden && (query === "" || i.name.toLowerCase().includes(query.toLowerCase()))
+    ),
+  })).filter((g) => g.icons.length > 0);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex flex-col items-center"
+      style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)" }}
+      onClick={onClose}
+    >
+      {/* Search */}
+      <div className="mt-12 mb-8 w-72" onClick={(e) => e.stopPropagation()}>
+        <input
+          autoFocus
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Zoeken..."
+          className="w-full px-4 py-2 rounded-xl text-white text-[15px] outline-none placeholder-white/40"
+          style={{ background: "rgba(255,255,255,0.15)", border: "0.5px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)", fontFamily: "-apple-system, sans-serif" }}
+        />
+      </div>
+
+      {/* App grid */}
+      <div className="flex-1 w-full max-w-4xl px-8 overflow-y-auto pb-8" onClick={(e) => e.stopPropagation()}>
+        {filtered.map((group) => (
+          <div key={group.label} className="mb-8">
+            <div className="text-white/40 text-[11px] uppercase tracking-widest mb-3 font-medium" style={{ fontFamily: "-apple-system, sans-serif" }}>
+              {group.label}
+            </div>
+            <div className="flex flex-wrap gap-5">
+              {group.icons.map((icon) => {
+                const cls = "flex flex-col items-center gap-2 w-20 cursor-pointer group";
+                const content = (
+                  <>
+                    <div className="group-hover:scale-110 transition-transform duration-150 drop-shadow-xl">
+                      <icon.Icon />
+                    </div>
+                    <span className="text-white/80 text-[12px] text-center leading-tight font-medium" style={{ fontFamily: "-apple-system, sans-serif" }}>
+                      {icon.name}
+                    </span>
+                  </>
+                );
+                if (icon.type === "folder" && icon.folderId) {
+                  return (
+                    <button key={icon.id} className={cls} onClick={() => { onClose(); onOpenFolder(icon.folderId!); }}>
+                      {content}
+                    </button>
+                  );
+                }
+                if (icon.type === "link" && icon.url) {
+                  return (
+                    <a key={icon.id} href={icon.url} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClose}>
+                      {content}
+                    </a>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ModernDock({
+  onLaunchpad, onOpenFolder, onSwitchTheme, windows, restoreWindow, minimizeWindow,
+}: {
+  onLaunchpad: () => void;
+  onOpenFolder: (id: string) => void;
+  onSwitchTheme: () => void;
+  windows: WinState[];
+  restoreWindow: (id: string) => void;
+  minimizeWindow: (id: string) => void;
+}) {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  function getScale(idx: number) {
+    if (hoveredIdx === null) return 1;
+    const d = Math.abs(idx - hoveredIdx);
+    if (d === 0) return 1.55;
+    if (d === 1) return 1.28;
+    if (d === 2) return 1.1;
+    return 1;
+  }
+
+  function getTranslateY(idx: number) {
+    const s = getScale(idx);
+    return -(s - 1) * 28;
+  }
+
+  // Has open window indicator?
+  function hasWindow(iconId: string) {
+    const app = DOCK_APPS.find((a) => a.id === iconId);
+    if (!app) return false;
+    if (app.type === "folder") return windows.some((w) => w.type === "folder" && w.folderId === app.folderId);
+    return false;
+  }
+
+  return (
+    <div className="flex justify-center pb-2 z-40 flex-shrink-0">
+      <div
+        className="flex items-end px-3 gap-1"
+        style={{
+          background: "rgba(255,255,255,0.13)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          border: "0.5px solid rgba(255,255,255,0.22)",
+          borderRadius: 18,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 0.5px 0 rgba(255,255,255,0.2)",
+          padding: "8px 12px",
+        }}
+        onMouseLeave={() => setHoveredIdx(null)}
+      >
+        {DOCK_APPS.map((app, idx) => {
+          const scale = getScale(idx);
+          const ty = getTranslateY(idx);
+          const size = 48;
+          const indicator = hasWindow(app.id);
+
+          const inner = (
+            <div
+              key={app.id}
+              className="flex flex-col items-center relative"
+              style={{ transform: `scale(${scale}) translateY(${ty}px)`, transformOrigin: "bottom center", transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)", width: size + 8, cursor: "pointer" }}
+              onMouseEnter={() => setHoveredIdx(idx)}
+              title={app.name}
+            >
+              <div style={{ width: size, height: size }} className="drop-shadow-xl">
+                <app.Icon />
+              </div>
+              {indicator && (
+                <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white/70" />
+              )}
+            </div>
+          );
+
+          if (app.type === "folder" && app.folderId) {
+            return (
+              <button key={app.id} className="focus:outline-none" onClick={() => onOpenFolder(app.folderId!)}>
+                {inner}
+              </button>
+            );
+          }
+          return (
+            <a key={app.id} href={app.url} target="_blank" rel="noopener noreferrer">
+              {inner}
+            </a>
+          );
+        })}
+
+        {/* Divider */}
+        <div className="w-px self-stretch mx-1 my-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
+
+        {/* Launchpad */}
+        <button
+          className="flex flex-col items-center"
+          style={{
+            transform: hoveredIdx === DOCK_APPS.length ? `scale(1.55) translateY(${getTranslateY(DOCK_APPS.length)}px)` : "scale(1)",
+            transformOrigin: "bottom center",
+            transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)",
+            width: 56, cursor: "pointer",
+          }}
+          onMouseEnter={() => setHoveredIdx(DOCK_APPS.length)}
+          onClick={onLaunchpad}
+          title="Launchpad"
+        >
+          <div
+            className="rounded-2xl flex items-center justify-center shadow-xl"
+            style={{ width: 48, height: 48, background: "linear-gradient(145deg, #9b59b6, #3498db)" }}
+          >
+            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+              <circle cx="5" cy="5" r="2" /><circle cx="12" cy="5" r="2" /><circle cx="19" cy="5" r="2" />
+              <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+              <circle cx="5" cy="19" r="2" /><circle cx="12" cy="19" r="2" /><circle cx="19" cy="19" r="2" />
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 let winCounter = 0;
 
 export default function Home() {
+  const [theme, setTheme] = useState<"xp" | "modern">("xp");
   const [startOpen, setStartOpen] = useState(false);
+  const [launchpadOpen, setLaunchpadOpen] = useState(false);
   const [windows, setWindows] = useState<WinState[]>([]);
   const maxZ = useRef(100);
 
@@ -1098,6 +1448,59 @@ export default function Home() {
     maxZ.current += 1;
     setWindows((ws) =>
       ws.map((w) => w.instanceId === instanceId ? { ...w, minimized: false, zIndex: maxZ.current } : w)
+    );
+  }
+
+  function switchTheme() {
+    setTheme((t) => (t === "xp" ? "modern" : "xp"));
+    setStartOpen(false);
+    setLaunchpadOpen(false);
+  }
+
+  if (theme === "modern") {
+    return (
+      <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" }}>
+        {/* Wallpaper */}
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background: [
+              "radial-gradient(ellipse 70% 60% at 15% 10%, rgba(90,40,180,0.45) 0%, transparent 55%)",
+              "radial-gradient(ellipse 60% 60% at 85% 90%, rgba(10,80,190,0.4) 0%, transparent 55%)",
+              "radial-gradient(ellipse 50% 50% at 55% 40%, rgba(20,130,110,0.25) 0%, transparent 60%)",
+              "linear-gradient(160deg, #0c0c20 0%, #0e1d45 22%, #0d3060 42%, #0a4a3a 62%, #0a3020 82%, #080f10 100%)",
+            ].join(", "),
+          }}
+        />
+
+        <ModernMenuBar onSwitchTheme={switchTheme} />
+
+        {/* Desktop area */}
+        <div className="flex-1 relative overflow-hidden">
+          {windows.map((win) => (
+            <ModernWindow
+              key={win.instanceId}
+              win={win}
+              onClose={closeWindow}
+              onFocus={focusWindow}
+              onMinimize={minimizeWindow}
+              onMove={moveWindow}
+              onOpenFolder={openFolder}
+            />
+          ))}
+        </div>
+
+        {launchpadOpen && <ModernLaunchpad onClose={() => setLaunchpadOpen(false)} onOpenFolder={openFolder} />}
+
+        <ModernDock
+          onLaunchpad={() => setLaunchpadOpen((o) => !o)}
+          onOpenFolder={openFolder}
+          onSwitchTheme={switchTheme}
+          windows={windows}
+          restoreWindow={restoreWindow}
+          minimizeWindow={minimizeWindow}
+        />
+      </div>
     );
   }
 
@@ -1233,6 +1636,19 @@ export default function Home() {
             boxShadow: "inset 1px 0 0 rgba(255,255,255,0.15)"
           }}
         >
+          {/* Theme switch button */}
+          <button
+            onClick={switchTheme}
+            className="flex items-center gap-1 text-white/70 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/15 text-[10px]"
+            style={{ fontFamily: "Tahoma, sans-serif" }}
+            title="Wisselen naar modern thema"
+          >
+            <svg viewBox="0 0 16 16" className="w-3 h-3" fill="currentColor">
+              <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth={1} fill="none" />
+              <path d="M8 1.5 A6.5 6.5 0 0 1 8 14.5 Z" fill="currentColor" />
+            </svg>
+            <span>Thema</span>
+          </button>
           {/* Volume icon */}
           <svg viewBox="0 0 24 24" className="w-4 h-4 text-white/80" fill="currentColor">
             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
