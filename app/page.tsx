@@ -571,7 +571,7 @@ const groups: Group[] = [
       { id: "monday", name: "Monday", type: "link", url: "https://monday.com", Icon: IconMonday },
       { id: "lastpass", name: "LastPass", type: "link", url: "https://www.lastpass.com", Icon: IconLastPass },
       { id: "betty", name: "Betty Blocks", type: "link", url: "https://woeler.bettyblocks.com/", Icon: IconBetty },
-      { id: "nmbrs", name: "Nmbrs", type: "link", url: "https://www.nmbrs.com/nl/inloggen", Icon: IconNmbrs },
+      { id: "nmbrs", name: "Nmbrs", type: "link", url: "https://connect.visma.com/?returnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3Dvismanmbrs%26response_type%3Dcode%2520id_token%26scope%3Demail%2520openid%2520profile%2520offline_access%2520graphapi%253Aread%26response_mode%3Dform_post%26nonce%3Dnonce%26state%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyZWRpcmVjdF91cmkiOiJodHRwczovL2xvZ2luLm5tYnJzYXBwLmNvbSJ9.h0uNG5FFnaNEIvp3JnvF2rLrPq386Sx85BmD0YAzy7F7kj9rR6I53TpAckveUiHWtZvyrnE7ByhI1_3WNKNLVw%26redirect_uri%3Dhttps%253A%252F%252Fcorebff.nmbrsapp.com%252Fapi%252Fuseraccount%252Flogin%252Fsignin-oidc", Icon: IconNmbrs },
     ],
   },
   {
