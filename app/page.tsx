@@ -1223,7 +1223,13 @@ function ModernMenuBar({ onSwitchTheme, searchQuery, onSearchChange }: {
 let winCounter = 0;
 
 export default function Home() {
-  const [theme, setTheme] = useState<"xp" | "modern">("xp");
+  const [theme, setTheme] = useState<"xp" | "modern">(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("woeler-hub-theme");
+      if (saved === "modern" || saved === "xp") return saved;
+    }
+    return "xp";
+  });
   const [startOpen, setStartOpen] = useState(false);
   const [launchpadOpen, setLaunchpadOpen] = useState(false);
   const [modernSearch, setModernSearch] = useState("");
@@ -1302,7 +1308,11 @@ export default function Home() {
   }
 
   function switchTheme() {
-    setTheme((t) => (t === "xp" ? "modern" : "xp"));
+    setTheme((t) => {
+      const next = t === "xp" ? "modern" : "xp";
+      localStorage.setItem("woeler-hub-theme", next);
+      return next;
+    });
     setStartOpen(false);
     setLaunchpadOpen(false);
   }
