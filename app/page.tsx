@@ -1148,20 +1148,23 @@ function ModernMenuBar({ onSwitchTheme }: { onSwitchTheme: () => void }) {
   return (
     <div
       className="flex items-center px-4 z-50 flex-shrink-0 select-none"
-      style={{ height: 28, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "0.5px solid rgba(255,255,255,0.1)" }}
+      style={{ height: 28, background: "rgba(255,255,255,0.28)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "0.5px solid rgba(0,0,0,0.1)" }}
     >
       {/* Left: logo + app name */}
-      <div className="flex items-center gap-3 text-white">
+      <div className="flex items-center gap-3" style={{ color: "rgba(0,0,0,0.8)" }}>
         <span className="font-black text-base tracking-tight" style={{ fontFamily: "-apple-system, sans-serif" }}>W</span>
-        <span className="font-semibold text-[13px] opacity-90" style={{ fontFamily: "-apple-system, sans-serif" }}>Woeler Hub</span>
+        <span className="font-semibold text-[13px]" style={{ fontFamily: "-apple-system, sans-serif" }}>Woeler Hub</span>
       </div>
 
       {/* Right: status bar */}
-      <div className="ml-auto flex items-center gap-4 text-white/80 text-[13px]" style={{ fontFamily: "-apple-system, sans-serif" }}>
+      <div className="ml-auto flex items-center gap-4 text-[13px]" style={{ color: "rgba(0,0,0,0.7)", fontFamily: "-apple-system, sans-serif" }}>
         {/* Switch to XP */}
         <button
           onClick={onSwitchTheme}
-          className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors text-[12px] px-2 py-0.5 rounded-md hover:bg-white/10"
+          className="flex items-center gap-1.5 transition-colors text-[12px] px-2 py-0.5 rounded-md"
+          style={{ color: "rgba(0,0,0,0.55)" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,0,0,0.08)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
           title="Wisselen naar Windows XP"
         >
           <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="currentColor">
@@ -1172,9 +1175,9 @@ function ModernMenuBar({ onSwitchTheme }: { onSwitchTheme: () => void }) {
           </svg>
           <span>XP</span>
         </button>
-        <span className="text-white/30">|</span>
+        <span style={{ color: "rgba(0,0,0,0.2)" }}>|</span>
         <span>{time.toLocaleTimeString("nl-NL", { weekday: "short", hour: "2-digit", minute: "2-digit" })}</span>
-        <span className="text-white/50 text-[12px]">{time.toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" })}</span>
+        <span className="text-[12px]" style={{ color: "rgba(0,0,0,0.45)" }}>{time.toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" })}</span>
       </div>
     </div>
   );
@@ -1290,12 +1293,12 @@ function ModernDock({
       <div
         className="flex items-end px-3 gap-1"
         style={{
-          background: "rgba(255,255,255,0.13)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "0.5px solid rgba(255,255,255,0.22)",
+          background: "rgba(255,255,255,0.3)",
+          backdropFilter: "blur(28px)",
+          WebkitBackdropFilter: "blur(28px)",
+          border: "0.5px solid rgba(255,255,255,0.6)",
           borderRadius: 18,
-          boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 0.5px 0 rgba(255,255,255,0.2)",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.25), inset 0 0.5px 0 rgba(255,255,255,0.7)",
           padding: "8px 12px",
         }}
         onMouseLeave={() => setHoveredIdx(null)}
@@ -1305,20 +1308,29 @@ function ModernDock({
           const ty = getTranslateY(idx);
           const size = 48;
           const indicator = hasWindow(app.id);
+          const isHovered = hoveredIdx === idx;
 
           const inner = (
             <div
               key={app.id}
               className="flex flex-col items-center relative"
-              style={{ transform: `scale(${scale}) translateY(${ty}px)`, transformOrigin: "bottom center", transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)", width: size + 8, cursor: "pointer" }}
+              style={{ transform: `scale(${scale}) translateY(${ty}px)`, transformOrigin: "bottom center", transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)", width: size + 16, cursor: "pointer" }}
               onMouseEnter={() => setHoveredIdx(idx)}
-              title={app.name}
             >
               <div style={{ width: size, height: size }} className="drop-shadow-xl">
                 <app.Icon />
               </div>
               {indicator && (
                 <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white/70" />
+              )}
+              {/* Name label on hover */}
+              {isHovered && (
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none"
+                  style={{ bottom: "calc(100% + 6px)", background: "rgba(30,30,30,0.85)", color: "white", fontSize: 11, fontWeight: 500, padding: "3px 8px", borderRadius: 6, backdropFilter: "blur(10px)", border: "0.5px solid rgba(255,255,255,0.15)" }}
+                >
+                  {app.name}
+                </div>
               )}
             </div>
           );
@@ -1341,29 +1353,33 @@ function ModernDock({
         <div className="w-px self-stretch mx-1 my-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
 
         {/* Launchpad */}
-        <button
-          className="flex flex-col items-center"
-          style={{
-            transform: hoveredIdx === DOCK_APPS.length ? `scale(1.55) translateY(${getTranslateY(DOCK_APPS.length)}px)` : "scale(1)",
-            transformOrigin: "bottom center",
-            transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)",
-            width: 56, cursor: "pointer",
-          }}
-          onMouseEnter={() => setHoveredIdx(DOCK_APPS.length)}
-          onClick={onLaunchpad}
-          title="Launchpad"
-        >
-          <div
-            className="rounded-2xl flex items-center justify-center shadow-xl"
-            style={{ width: 48, height: 48, background: "linear-gradient(145deg, #9b59b6, #3498db)" }}
-          >
-            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
-              <circle cx="5" cy="5" r="2" /><circle cx="12" cy="5" r="2" /><circle cx="19" cy="5" r="2" />
-              <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
-              <circle cx="5" cy="19" r="2" /><circle cx="12" cy="19" r="2" /><circle cx="19" cy="19" r="2" />
-            </svg>
-          </div>
-        </button>
+        {(() => {
+          const lpIdx = DOCK_APPS.length + 1;
+          const scale = getScale(lpIdx);
+          const ty = getTranslateY(lpIdx);
+          const isHov = hoveredIdx === lpIdx;
+          return (
+            <button
+              className="flex flex-col items-center focus:outline-none relative"
+              style={{ transform: `scale(${scale}) translateY(${ty}px)`, transformOrigin: "bottom center", transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)", width: 64, cursor: "pointer" }}
+              onMouseEnter={() => setHoveredIdx(lpIdx)}
+              onClick={onLaunchpad}
+            >
+              <div className="rounded-2xl flex items-center justify-center shadow-xl" style={{ width: 48, height: 48, background: "linear-gradient(145deg, #9b59b6, #3498db)" }}>
+                <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
+                  <circle cx="5" cy="5" r="2" /><circle cx="12" cy="5" r="2" /><circle cx="19" cy="5" r="2" />
+                  <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+                  <circle cx="5" cy="19" r="2" /><circle cx="12" cy="19" r="2" /><circle cx="19" cy="19" r="2" />
+                </svg>
+              </div>
+              {isHov && (
+                <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none" style={{ bottom: "calc(100% + 6px)", background: "rgba(30,30,30,0.85)", color: "white", fontSize: 11, fontWeight: 500, padding: "3px 8px", borderRadius: 6, backdropFilter: "blur(10px)", border: "0.5px solid rgba(255,255,255,0.15)" }}>
+                  Launchpad
+                </div>
+              )}
+            </button>
+          );
+        })()}
       </div>
     </div>
   );
@@ -1460,15 +1476,15 @@ export default function Home() {
   if (theme === "modern") {
     return (
       <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" }}>
-        {/* Wallpaper */}
+        {/* Wallpaper — macOS Sequoia inspired */}
         <div
           className="absolute inset-0 -z-10"
           style={{
             background: [
-              "radial-gradient(ellipse 70% 60% at 15% 10%, rgba(90,40,180,0.45) 0%, transparent 55%)",
-              "radial-gradient(ellipse 60% 60% at 85% 90%, rgba(10,80,190,0.4) 0%, transparent 55%)",
-              "radial-gradient(ellipse 50% 50% at 55% 40%, rgba(20,130,110,0.25) 0%, transparent 60%)",
-              "linear-gradient(160deg, #0c0c20 0%, #0e1d45 22%, #0d3060 42%, #0a4a3a 62%, #0a3020 82%, #080f10 100%)",
+              "radial-gradient(ellipse 55% 40% at 70% 8%, rgba(255,230,110,0.45) 0%, transparent 55%)",
+              "radial-gradient(ellipse 40% 30% at 85% 50%, rgba(255,180,60,0.15) 0%, transparent 50%)",
+              "radial-gradient(ellipse 50% 45% at 10% 85%, rgba(40,160,80,0.35) 0%, transparent 55%)",
+              "linear-gradient(180deg, #4fa8dd 0%, #73c1e8 18%, #a2d8f0 34%, #c8e8f0 45%, #8dc87e 58%, #5aaa50 74%, #3a8030 100%)",
             ].join(", "),
           }}
         />
@@ -1477,6 +1493,81 @@ export default function Home() {
 
         {/* Desktop area */}
         <div className="flex-1 relative overflow-hidden">
+          {/* Desktop icons — right-side column layout */}
+          <div className="absolute top-3 left-3 bottom-0 overflow-y-auto pointer-events-none" style={{ zIndex: 1 }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(84px, max-content))",
+                alignItems: "start",
+                gap: "12px 4px",
+                paddingBottom: 8,
+                pointerEvents: "auto",
+              }}
+            >
+              {groups.map((group) => (
+                <div key={group.label} style={{ minWidth: 76 }}>
+                  <div className="mb-1 pl-1">
+                    <span
+                      className="text-[9px] uppercase tracking-widest whitespace-nowrap font-semibold"
+                      style={{ color: "rgba(0,0,0,0.45)", textShadow: "0 1px 2px rgba(255,255,255,0.7)" }}
+                    >
+                      {group.label}
+                    </span>
+                  </div>
+                  <div className="flex flex-row flex-wrap gap-0.5">
+                    {group.icons.map((icon) => {
+                      if (icon.desktopHidden) return null;
+                      const commonCls = "flex flex-col items-center gap-1 w-[76px] p-1.5 rounded-xl cursor-pointer select-none group";
+                      const iconEl = (
+                        <>
+                          <div className="group-hover:scale-110 transition-transform duration-100 drop-shadow-md">
+                            <icon.Icon />
+                          </div>
+                          <span
+                            className="text-[11px] text-center leading-tight break-words max-w-full font-medium"
+                            style={{ color: "rgba(10,10,10,0.82)", textShadow: "0 1px 3px rgba(255,255,255,0.9)" }}
+                          >
+                            {icon.name}
+                          </span>
+                        </>
+                      );
+                      if (icon.type === "folder" && icon.folderId) {
+                        return (
+                          <button
+                            key={icon.id}
+                            className={commonCls}
+                            style={{ background: "transparent" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.35)")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                            onClick={() => openFolder(icon.folderId!)}
+                          >
+                            {iconEl}
+                          </button>
+                        );
+                      }
+                      return (
+                        <a
+                          key={icon.id}
+                          href={icon.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={commonCls}
+                          style={{ background: "transparent" }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.35)")}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                        >
+                          {iconEl}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Open windows */}
           {windows.map((win) => (
             <ModernWindow
               key={win.instanceId}
