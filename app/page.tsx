@@ -1021,22 +1021,27 @@ function TaskbarClock() {
   );
 }
 
-// ── Modern macOS-style theme ──────────────────────────────────────────────────
+// ── Modern dark minimal theme ─────────────────────────────────────────────────
 
-// Curated dock items (visible without launchpad)
-const DOCK_APPS: DesktopIcon[] = [
-  { id: "adoptimizer",    name: "AdOptimizer",  type: "link", url: "https://www.adoptimizer.nl",          Icon: IconAdOptimizer },
-  { id: "metaoptimizer",  name: "Meta Opt.",    type: "link", url: "https://www.meta-optimizer.nl",        Icon: IconMetaOptimizer },
-  { id: "intake",         name: "Intake",       type: "link", url: "https://intake.woeler.nl",             Icon: IconIntake },
-  { id: "gmail",          name: "Gmail",        type: "link", url: "https://mail.google.com",              Icon: IconGmail },
-  { id: "sheets",         name: "Sheets",       type: "link", url: "https://docs.google.com/spreadsheets", Icon: IconGoogleSheets },
-  { id: "drive",          name: "Drive",        type: "link", url: "https://drive.google.com",             Icon: IconGoogleDrive },
-  { id: "google-ads-d",   name: "Google Ads",   type: "link", url: "https://ads.google.com",              Icon: IconGoogleAds },
-  { id: "meta-ads-d",     name: "Meta Ads",     type: "link", url: "https://adsmanager.facebook.com",     Icon: IconMetaAds },
-  { id: "monday-d",       name: "Monday",       type: "link", url: "https://monday.com",                  Icon: IconMonday },
-  { id: "claude-d",       name: "Claude",       type: "link", url: "https://claude.ai",                   Icon: IconClaude },
-  { id: "rietveld-d",     name: "Rietveld",     type: "folder", folderId: "rietveld-folder",              Icon: IconFolder },
-];
+// Flat monochrome icon wrapper for modern theme
+function FlatIcon({ Icon }: { Icon: () => React.ReactElement }) {
+  return (
+    <div
+      style={{
+        width: 44, height: 44, borderRadius: 11,
+        background: "rgba(255,255,255,0.07)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ filter: "grayscale(1) brightness(1.6) contrast(0.75)", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ transform: "scale(0.9)", transformOrigin: "center" }}>
+          <Icon />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: XpWindowProps) {
   const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
@@ -1071,60 +1076,58 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
   return (
     <div
       className="fixed select-none"
-      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 580, minWidth: win.type === "minesweeper" ? undefined : 400 }}
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 560 }}
       onMouseDown={() => onFocus(win.instanceId)}
     >
-      <div style={{ borderRadius: 14, overflow: "hidden", boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.12)" }}>
+      <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 24px 60px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.08)", border: "0.5px solid rgba(255,255,255,0.1)" }}>
         {/* Title bar */}
         <div
-          className="flex items-center px-4 cursor-move"
-          style={{ height: 44, background: "rgba(30,30,30,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderBottom: "0.5px solid rgba(255,255,255,0.1)" }}
+          className="flex items-center px-4 gap-3 cursor-move"
+          style={{ height: 42, background: "#1c1c1e", borderBottom: "0.5px solid rgba(255,255,255,0.07)" }}
           onMouseDown={startDrag}
         >
-          {/* Traffic lights */}
-          <div className="flex gap-2 flex-shrink-0">
-            <button onClick={() => onClose(win.instanceId)} className="group w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#ff5f57" }} title="Sluiten">
-              <svg viewBox="0 0 8 8" className="w-1.5 h-1.5 opacity-0 group-hover:opacity-100" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth={1.5}><line x1="1.5" y1="1.5" x2="6.5" y2="6.5" /><line x1="6.5" y1="1.5" x2="1.5" y2="6.5" /></svg>
+          <div className="flex gap-1.5 flex-shrink-0">
+            <button onClick={() => onClose(win.instanceId)} className="group w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#ff5f57" }}>
+              <svg viewBox="0 0 8 8" className="w-1.5 h-1.5 opacity-0 group-hover:opacity-80" fill="none" stroke="#7a0000" strokeWidth={1.5}><line x1="1.5" y1="1.5" x2="6.5" y2="6.5" /><line x1="6.5" y1="1.5" x2="1.5" y2="6.5" /></svg>
             </button>
-            <button onClick={() => onMinimize(win.instanceId)} className="group w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#febc2e" }} title="Minimaliseren">
-              <svg viewBox="0 0 8 8" className="w-1.5 h-1.5 opacity-0 group-hover:opacity-100" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth={1.5}><line x1="1.5" y1="4" x2="6.5" y2="4" /></svg>
+            <button onClick={() => onMinimize(win.instanceId)} className="group w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#febc2e" }}>
+              <svg viewBox="0 0 8 8" className="w-1.5 h-1.5 opacity-0 group-hover:opacity-80" fill="none" stroke="#7a5000" strokeWidth={1.5}><line x1="1.5" y1="4" x2="6.5" y2="4" /></svg>
             </button>
-            <div className="w-3 h-3 rounded-full opacity-40" style={{ background: "#28c840" }} />
+            <div className="w-3 h-3 rounded-full" style={{ background: "#28c840", opacity: 0.35 }} />
           </div>
-          {/* Centered title */}
-          <div className="flex-1 text-center">
-            <span className="text-[13px] font-semibold text-white/80" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" }}>
-              {title}
-            </span>
-          </div>
-          <div className="w-16 flex-shrink-0" />
+          <span className="flex-1 text-center text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.6)", letterSpacing: "-0.01em" }}>
+            {title}
+          </span>
+          <div className="w-14 flex-shrink-0" />
         </div>
 
         {/* Content */}
         {win.type === "minesweeper" ? (
-          <div className="flex items-center justify-center p-4" style={{ background: "rgba(28,28,30,0.95)" }}>
+          <div className="flex items-center justify-center p-5" style={{ background: "#141416" }}>
             <MinesweeperGame />
           </div>
         ) : (
-          <div className="p-5 min-h-[200px]" style={{ background: "rgba(28,28,30,0.92)" }}>
+          <div className="p-5 min-h-[200px]" style={{ background: "#141416" }}>
             {!folder || folder.items.length === 0 ? (
-              <div className="flex items-center justify-center h-24 text-white/30 text-sm italic">Deze map is leeg</div>
+              <div className="flex items-center justify-center h-24 text-[13px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+                Deze map is leeg
+              </div>
             ) : (
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3">
                 {folder.items.map((item) => (
                   <button
                     key={item.id}
-                    className="flex flex-col items-center gap-2 w-20 p-2 rounded-xl cursor-pointer group transition-colors"
+                    className="flex flex-col items-center gap-2 w-[72px] p-2 rounded-xl cursor-pointer transition-all"
                     style={{ background: "transparent" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                     onClick={() => {
                       if (item.type === "link" && item.url) window.open(item.url, "_blank");
                       else if (item.type === "folder" && item.folderId) onOpenFolder(item.folderId);
                     }}
                   >
-                    <item.Icon />
-                    <span className="text-[11px] text-white/70 text-center leading-tight break-words max-w-full" style={{ fontFamily: "-apple-system, sans-serif" }}>
+                    <FlatIcon Icon={item.Icon} />
+                    <span className="text-[10px] text-center leading-tight break-words max-w-full" style={{ color: "rgba(255,255,255,0.5)" }}>
                       {item.name}
                     </span>
                   </button>
@@ -1138,7 +1141,11 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
   );
 }
 
-function ModernMenuBar({ onSwitchTheme }: { onSwitchTheme: () => void }) {
+function ModernMenuBar({ onSwitchTheme, searchQuery, onSearchChange }: {
+  onSwitchTheme: () => void;
+  searchQuery: string;
+  onSearchChange: (v: string) => void;
+}) {
   const [time, setTime] = useState(new Date());
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);
@@ -1147,239 +1154,44 @@ function ModernMenuBar({ onSwitchTheme }: { onSwitchTheme: () => void }) {
 
   return (
     <div
-      className="flex items-center px-4 z-50 flex-shrink-0 select-none"
-      style={{ height: 28, background: "rgba(255,255,255,0.28)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "0.5px solid rgba(0,0,0,0.1)" }}
+      className="flex items-center px-5 gap-4 z-50 flex-shrink-0 select-none"
+      style={{ height: 44, background: "#0d1117", borderBottom: "0.5px solid rgba(255,255,255,0.06)" }}
     >
-      {/* Left: logo + app name */}
-      <div className="flex items-center gap-3" style={{ color: "rgba(0,0,0,0.8)" }}>
-        <span className="font-black text-base tracking-tight" style={{ fontFamily: "-apple-system, sans-serif" }}>W</span>
-        <span className="font-semibold text-[13px]" style={{ fontFamily: "-apple-system, sans-serif" }}>Woeler Hub</span>
+      {/* Logo */}
+      <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="w-6 h-6 rounded-md flex items-center justify-center text-white font-black text-sm" style={{ background: "linear-gradient(145deg, #FF8C3A, #CC4A00)", fontSize: 13 }}>W</div>
+        <span className="font-semibold text-[13px]" style={{ color: "rgba(255,255,255,0.7)", letterSpacing: "-0.01em" }}>Woeler Hub</span>
       </div>
 
-      {/* Right: status bar */}
-      <div className="ml-auto flex items-center gap-4 text-[13px]" style={{ color: "rgba(0,0,0,0.7)", fontFamily: "-apple-system, sans-serif" }}>
-        {/* Switch to XP */}
-        <button
-          onClick={onSwitchTheme}
-          className="flex items-center gap-1.5 transition-colors text-[12px] px-2 py-0.5 rounded-md"
-          style={{ color: "rgba(0,0,0,0.55)" }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,0,0,0.08)"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
-          title="Wisselen naar Windows XP"
-        >
-          <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="currentColor">
-            <rect x="1" y="1" width="6.5" height="6.5" rx="0.5" opacity={0.8} />
-            <rect x="8.5" y="1" width="6.5" height="6.5" rx="0.5" />
-            <rect x="1" y="8.5" width="6.5" height="6.5" rx="0.5" />
-            <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="0.5" opacity={0.8} />
-          </svg>
-          <span>XP</span>
-        </button>
-        <span style={{ color: "rgba(0,0,0,0.2)" }}>|</span>
-        <span>{time.toLocaleTimeString("nl-NL", { weekday: "short", hour: "2-digit", minute: "2-digit" })}</span>
-        <span className="text-[12px]" style={{ color: "rgba(0,0,0,0.45)" }}>{time.toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" })}</span>
-      </div>
-    </div>
-  );
-}
-
-function ModernLaunchpad({ onClose, onOpenFolder }: { onClose: () => void; onOpenFolder: (id: string) => void }) {
-  const [query, setQuery] = useState("");
-  const filtered = groups.map((g) => ({
-    ...g,
-    icons: g.icons.filter(
-      (i) => !i.desktopHidden && (query === "" || i.name.toLowerCase().includes(query.toLowerCase()))
-    ),
-  })).filter((g) => g.icons.length > 0);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex flex-col items-center"
-      style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)" }}
-      onClick={onClose}
-    >
       {/* Search */}
-      <div className="mt-12 mb-8 w-72" onClick={(e) => e.stopPropagation()}>
+      <div className="flex-1 max-w-xs mx-auto relative">
+        <svg viewBox="0 0 16 16" className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth={1.5}>
+          <circle cx="6.5" cy="6.5" r="4.5" /><line x1="10" y1="10" x2="14" y2="14" />
+        </svg>
         <input
-          autoFocus
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Zoeken..."
-          className="w-full px-4 py-2 rounded-xl text-white text-[15px] outline-none placeholder-white/40"
-          style={{ background: "rgba(255,255,255,0.15)", border: "0.5px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)", fontFamily: "-apple-system, sans-serif" }}
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Zoeken…"
+          className="w-full pl-8 pr-3 py-1.5 rounded-lg text-[12px] outline-none"
+          style={{ background: "rgba(255,255,255,0.07)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.75)", caretColor: "white" }}
         />
       </div>
 
-      {/* App grid */}
-      <div className="flex-1 w-full max-w-4xl px-8 overflow-y-auto pb-8" onClick={(e) => e.stopPropagation()}>
-        {filtered.map((group) => (
-          <div key={group.label} className="mb-8">
-            <div className="text-white/40 text-[11px] uppercase tracking-widest mb-3 font-medium" style={{ fontFamily: "-apple-system, sans-serif" }}>
-              {group.label}
-            </div>
-            <div className="flex flex-wrap gap-5">
-              {group.icons.map((icon) => {
-                const cls = "flex flex-col items-center gap-2 w-20 cursor-pointer group";
-                const content = (
-                  <>
-                    <div className="group-hover:scale-110 transition-transform duration-150 drop-shadow-xl">
-                      <icon.Icon />
-                    </div>
-                    <span className="text-white/80 text-[12px] text-center leading-tight font-medium" style={{ fontFamily: "-apple-system, sans-serif" }}>
-                      {icon.name}
-                    </span>
-                  </>
-                );
-                if (icon.type === "folder" && icon.folderId) {
-                  return (
-                    <button key={icon.id} className={cls} onClick={() => { onClose(); onOpenFolder(icon.folderId!); }}>
-                      {content}
-                    </button>
-                  );
-                }
-                if (icon.type === "link" && icon.url) {
-                  return (
-                    <a key={icon.id} href={icon.url} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClose}>
-                      {content}
-                    </a>
-                  );
-                }
-                return null;
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ModernDock({
-  onLaunchpad, onOpenFolder, onSwitchTheme, windows, restoreWindow, minimizeWindow,
-}: {
-  onLaunchpad: () => void;
-  onOpenFolder: (id: string) => void;
-  onSwitchTheme: () => void;
-  windows: WinState[];
-  restoreWindow: (id: string) => void;
-  minimizeWindow: (id: string) => void;
-}) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-
-  function getScale(idx: number) {
-    if (hoveredIdx === null) return 1;
-    const d = Math.abs(idx - hoveredIdx);
-    if (d === 0) return 1.55;
-    if (d === 1) return 1.28;
-    if (d === 2) return 1.1;
-    return 1;
-  }
-
-  function getTranslateY(idx: number) {
-    const s = getScale(idx);
-    return -(s - 1) * 28;
-  }
-
-  // Has open window indicator?
-  function hasWindow(iconId: string) {
-    const app = DOCK_APPS.find((a) => a.id === iconId);
-    if (!app) return false;
-    if (app.type === "folder") return windows.some((w) => w.type === "folder" && w.folderId === app.folderId);
-    return false;
-  }
-
-  return (
-    <div className="flex justify-center pb-2 z-40 flex-shrink-0">
-      <div
-        className="flex items-end px-3 gap-1"
-        style={{
-          background: "rgba(255,255,255,0.3)",
-          backdropFilter: "blur(28px)",
-          WebkitBackdropFilter: "blur(28px)",
-          border: "0.5px solid rgba(255,255,255,0.6)",
-          borderRadius: 18,
-          boxShadow: "0 8px 40px rgba(0,0,0,0.25), inset 0 0.5px 0 rgba(255,255,255,0.7)",
-          padding: "8px 12px",
-        }}
-        onMouseLeave={() => setHoveredIdx(null)}
-      >
-        {DOCK_APPS.map((app, idx) => {
-          const scale = getScale(idx);
-          const ty = getTranslateY(idx);
-          const size = 48;
-          const indicator = hasWindow(app.id);
-          const isHovered = hoveredIdx === idx;
-
-          const inner = (
-            <div
-              key={app.id}
-              className="flex flex-col items-center relative"
-              style={{ transform: `scale(${scale}) translateY(${ty}px)`, transformOrigin: "bottom center", transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)", width: size + 16, cursor: "pointer" }}
-              onMouseEnter={() => setHoveredIdx(idx)}
-            >
-              <div style={{ width: size, height: size }} className="drop-shadow-xl">
-                <app.Icon />
-              </div>
-              {indicator && (
-                <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white/70" />
-              )}
-              {/* Name label on hover */}
-              {isHovered && (
-                <div
-                  className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none"
-                  style={{ bottom: "calc(100% + 6px)", background: "rgba(30,30,30,0.85)", color: "white", fontSize: 11, fontWeight: 500, padding: "3px 8px", borderRadius: 6, backdropFilter: "blur(10px)", border: "0.5px solid rgba(255,255,255,0.15)" }}
-                >
-                  {app.name}
-                </div>
-              )}
-            </div>
-          );
-
-          if (app.type === "folder" && app.folderId) {
-            return (
-              <button key={app.id} className="focus:outline-none" onClick={() => onOpenFolder(app.folderId!)}>
-                {inner}
-              </button>
-            );
-          }
-          return (
-            <a key={app.id} href={app.url} target="_blank" rel="noopener noreferrer">
-              {inner}
-            </a>
-          );
-        })}
-
-        {/* Divider */}
-        <div className="w-px self-stretch mx-1 my-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
-
-        {/* Launchpad */}
-        {(() => {
-          const lpIdx = DOCK_APPS.length + 1;
-          const scale = getScale(lpIdx);
-          const ty = getTranslateY(lpIdx);
-          const isHov = hoveredIdx === lpIdx;
-          return (
-            <button
-              className="flex flex-col items-center focus:outline-none relative"
-              style={{ transform: `scale(${scale}) translateY(${ty}px)`, transformOrigin: "bottom center", transition: "transform 0.12s cubic-bezier(0.34,1.56,0.64,1)", width: 64, cursor: "pointer" }}
-              onMouseEnter={() => setHoveredIdx(lpIdx)}
-              onClick={onLaunchpad}
-            >
-              <div className="rounded-2xl flex items-center justify-center shadow-xl" style={{ width: 48, height: 48, background: "linear-gradient(145deg, #9b59b6, #3498db)" }}>
-                <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white">
-                  <circle cx="5" cy="5" r="2" /><circle cx="12" cy="5" r="2" /><circle cx="19" cy="5" r="2" />
-                  <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
-                  <circle cx="5" cy="19" r="2" /><circle cx="12" cy="19" r="2" /><circle cx="19" cy="19" r="2" />
-                </svg>
-              </div>
-              {isHov && (
-                <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none" style={{ bottom: "calc(100% + 6px)", background: "rgba(30,30,30,0.85)", color: "white", fontSize: 11, fontWeight: 500, padding: "3px 8px", borderRadius: 6, backdropFilter: "blur(10px)", border: "0.5px solid rgba(255,255,255,0.15)" }}>
-                  Launchpad
-                </div>
-              )}
-            </button>
-          );
-        })()}
+      {/* Right */}
+      <div className="flex items-center gap-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12 }}>
+        <span style={{ color: "rgba(255,255,255,0.55)" }}>
+          {time.toLocaleTimeString("nl-NL", { weekday: "short", hour: "2-digit", minute: "2-digit" })}
+        </span>
+        <button
+          onClick={onSwitchTheme}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium transition-all"
+          style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.45)", border: "0.5px solid rgba(255,255,255,0.1)" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.12)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.07)"; }}
+          title="Wisselen naar Windows XP"
+        >
+          XP
+        </button>
       </div>
     </div>
   );
@@ -1393,6 +1205,7 @@ export default function Home() {
   const [theme, setTheme] = useState<"xp" | "modern">("xp");
   const [startOpen, setStartOpen] = useState(false);
   const [launchpadOpen, setLaunchpadOpen] = useState(false);
+  const [modernSearch, setModernSearch] = useState("");
   const [windows, setWindows] = useState<WinState[]>([]);
   const maxZ = useRef(100);
 
@@ -1474,123 +1287,110 @@ export default function Home() {
   }
 
   if (theme === "modern") {
+    const q = modernSearch.trim().toLowerCase();
+    const filteredGroups = groups
+      .map((g) => ({
+        ...g,
+        icons: g.icons.filter((i) => !i.desktopHidden && (q === "" || i.name.toLowerCase().includes(q))),
+      }))
+      .filter((g) => g.icons.length > 0);
+
     return (
-      <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" }}>
-        {/* Wallpaper — macOS Sequoia inspired */}
-        <div
-          className="absolute inset-0 -z-10"
-          style={{
-            background: [
-              "radial-gradient(ellipse 55% 40% at 70% 8%, rgba(255,230,110,0.45) 0%, transparent 55%)",
-              "radial-gradient(ellipse 40% 30% at 85% 50%, rgba(255,180,60,0.15) 0%, transparent 50%)",
-              "radial-gradient(ellipse 50% 45% at 10% 85%, rgba(40,160,80,0.35) 0%, transparent 55%)",
-              "linear-gradient(180deg, #4fa8dd 0%, #73c1e8 18%, #a2d8f0 34%, #c8e8f0 45%, #8dc87e 58%, #5aaa50 74%, #3a8030 100%)",
-            ].join(", "),
-          }}
-        />
+      <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif", background: "#0d1117" }}>
+        {/* Subtle background texture */}
+        <div className="absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,100,200,0.12) 0%, transparent 60%), #0d1117" }} />
 
-        <ModernMenuBar onSwitchTheme={switchTheme} />
+        {/* Floating ModernWindows */}
+        {windows.map((win) => (
+          <ModernWindow key={win.instanceId} win={win} onClose={closeWindow} onFocus={focusWindow} onMinimize={minimizeWindow} onMove={moveWindow} onOpenFolder={openFolder} />
+        ))}
 
-        {/* Desktop area */}
-        <div className="flex-1 relative overflow-hidden">
-          {/* Desktop icons — right-side column layout */}
-          <div className="absolute top-3 left-3 bottom-0 overflow-y-auto pointer-events-none" style={{ zIndex: 1 }}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(84px, max-content))",
-                alignItems: "start",
-                gap: "12px 4px",
-                paddingBottom: 8,
-                pointerEvents: "auto",
-              }}
-            >
-              {groups.map((group) => (
-                <div key={group.label} style={{ minWidth: 76 }}>
-                  <div className="mb-1 pl-1">
-                    <span
-                      className="text-[9px] uppercase tracking-widest whitespace-nowrap font-semibold"
-                      style={{ color: "rgba(0,0,0,0.45)", textShadow: "0 1px 2px rgba(255,255,255,0.7)" }}
-                    >
-                      {group.label}
-                    </span>
-                  </div>
-                  <div className="flex flex-row flex-wrap gap-0.5">
-                    {group.icons.map((icon) => {
-                      if (icon.desktopHidden) return null;
-                      const commonCls = "flex flex-col items-center gap-1 w-[76px] p-1.5 rounded-xl cursor-pointer select-none group";
-                      const iconEl = (
-                        <>
-                          <div className="group-hover:scale-110 transition-transform duration-100 drop-shadow-md">
-                            <icon.Icon />
-                          </div>
-                          <span
-                            className="text-[11px] text-center leading-tight break-words max-w-full font-medium"
-                            style={{ color: "rgba(10,10,10,0.82)", textShadow: "0 1px 3px rgba(255,255,255,0.9)" }}
-                          >
-                            {icon.name}
-                          </span>
-                        </>
-                      );
-                      if (icon.type === "folder" && icon.folderId) {
-                        return (
-                          <button
-                            key={icon.id}
-                            className={commonCls}
-                            style={{ background: "transparent" }}
-                            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.35)")}
-                            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                            onClick={() => openFolder(icon.folderId!)}
-                          >
-                            {iconEl}
-                          </button>
-                        );
-                      }
-                      return (
-                        <a
-                          key={icon.id}
-                          href={icon.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={commonCls}
-                          style={{ background: "transparent" }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.35)")}
-                          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                        >
-                          {iconEl}
-                        </a>
-                      );
-                    })}
-                  </div>
+        <ModernMenuBar onSwitchTheme={switchTheme} searchQuery={modernSearch} onSearchChange={setModernSearch} />
+
+        {/* App grid */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="max-w-4xl mx-auto px-8 pt-8 pb-24">
+            {filteredGroups.map((group) => (
+              <div key={group.label} className="mb-8">
+                {/* Group header */}
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.22)", whiteSpace: "nowrap" }}>
+                    {group.label}
+                  </span>
+                  <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Open windows */}
-          {windows.map((win) => (
-            <ModernWindow
-              key={win.instanceId}
-              win={win}
-              onClose={closeWindow}
-              onFocus={focusWindow}
-              onMinimize={minimizeWindow}
-              onMove={moveWindow}
-              onOpenFolder={openFolder}
-            />
-          ))}
+                {/* Icons */}
+                <div className="flex flex-wrap gap-1">
+                  {group.icons.map((icon) => {
+                    const tileClass = "flex flex-col items-center gap-2 p-3 rounded-xl cursor-pointer select-none transition-all duration-100";
+                    const tileStyle = { width: 78, background: "transparent" };
+                    const iconEl = (
+                      <>
+                        <FlatIcon Icon={icon.Icon} />
+                        <span className="text-[11px] text-center leading-tight w-full truncate" style={{ color: "rgba(255,255,255,0.45)" }}>
+                          {icon.name}
+                        </span>
+                      </>
+                    );
+
+                    const hoverIn = (e: React.MouseEvent<HTMLElement>) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)");
+                    const hoverOut = (e: React.MouseEvent<HTMLElement>) => (e.currentTarget.style.background = "transparent");
+
+                    if (icon.type === "folder" && icon.folderId) {
+                      return (
+                        <button key={icon.id} className={tileClass} style={tileStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut} onClick={() => openFolder(icon.folderId!)}>
+                          {iconEl}
+                        </button>
+                      );
+                    }
+                    if (icon.type === "game") {
+                      return (
+                        <button key={icon.id} className={tileClass} style={tileStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut} onClick={openMinesweeper}>
+                          {iconEl}
+                        </button>
+                      );
+                    }
+                    return (
+                      <a key={icon.id} href={icon.url} target="_blank" rel="noopener noreferrer" className={tileClass} style={tileStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>
+                        {iconEl}
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {launchpadOpen && <ModernLaunchpad onClose={() => setLaunchpadOpen(false)} onOpenFolder={openFolder} />}
-
-        <ModernDock
-          onLaunchpad={() => setLaunchpadOpen((o) => !o)}
-          onOpenFolder={openFolder}
-          onSwitchTheme={switchTheme}
-          windows={windows}
-          restoreWindow={restoreWindow}
-          minimizeWindow={minimizeWindow}
-        />
+        {/* Bottom bar — open windows */}
+        {windows.length > 0 && (
+          <div
+            className="flex items-center gap-2 px-5 flex-shrink-0"
+            style={{ height: 44, background: "#0d1117", borderTop: "0.5px solid rgba(255,255,255,0.06)" }}
+          >
+            <span className="text-[10px] uppercase tracking-widest mr-2 flex-shrink-0" style={{ color: "rgba(255,255,255,0.2)" }}>Open</span>
+            {windows.map((win) => {
+              const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
+              const label = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? "Venster");
+              return (
+                <button
+                  key={win.instanceId}
+                  onClick={() => win.minimized ? restoreWindow(win.instanceId) : minimizeWindow(win.instanceId)}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-[12px] transition-all flex-shrink-0"
+                  style={{
+                    background: win.minimized ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.1)",
+                    color: win.minimized ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.7)",
+                    border: "0.5px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: win.minimized ? "rgba(255,255,255,0.2)" : "#28c840" }} />
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
