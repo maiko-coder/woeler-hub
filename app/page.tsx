@@ -501,60 +501,7 @@ interface FolderDef {
   items: FolderItem[];
 }
 
-const folderDefs: FolderDef[] = [
-  {
-    id: "rietveld-folder",
-    title: "Rietveld",
-    items: [
-      { id: "rv-google-ads", name: "Google Ads", type: "folder", folderId: "rv-google-ads-folder", Icon: IconFolder },
-      { id: "rv-meta-ads", name: "Meta Ads", type: "folder", folderId: "rv-meta-ads-folder", Icon: IconFolder },
-      { id: "rv-seo-cro", name: "SEO / CRO", type: "folder", folderId: "rv-seo-cro-folder", Icon: IconFolder },
-      { id: "rv-marketing-auto", name: "Marketing Automation", type: "folder", folderId: "rv-marketing-auto-folder", Icon: IconFolder },
-      { id: "rv-pinterest", name: "Pinterest", type: "folder", folderId: "rv-pinterest-folder", Icon: IconFolder },
-    ],
-  },
-  {
-    id: "rv-google-ads-folder",
-    title: "Google Ads",
-    items: [
-      { id: "ga-compleet", name: "Compleet", type: "link", url: "/rietveld/google-ads/compleet", Icon: IconDocFull },
-      { id: "ga-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/google-ads/samenvatting", Icon: IconDocSummary },
-      { id: "ga-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/google-ads/doelstellingen", Icon: IconDocGoal },
-    ],
-  },
-  {
-    id: "rv-meta-ads-folder",
-    title: "Meta Ads",
-    items: [
-      { id: "meta-compleet", name: "Compleet", type: "link", url: "/rietveld/meta-ads/compleet", Icon: IconDocFull },
-      { id: "meta-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/meta-ads/samenvatting", Icon: IconDocSummary },
-      { id: "meta-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/meta-ads/doelstellingen", Icon: IconDocGoal },
-    ],
-  },
-  {
-    id: "rv-seo-cro-folder",
-    title: "SEO / CRO",
-    items: [
-      { id: "seo-compleet", name: "Compleet", type: "link", url: "/rietveld/seo-cro/compleet", Icon: IconDocFull },
-      { id: "seo-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/seo-cro/samenvatting", Icon: IconDocSummary },
-      { id: "seo-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/seo-cro/doelstellingen", Icon: IconDocGoal },
-    ],
-  },
-  {
-    id: "rv-marketing-auto-folder",
-    title: "Marketing Automation",
-    items: [
-      { id: "email-compleet", name: "Compleet", type: "link", url: "/rietveld/marketing-automation/compleet", Icon: IconDocFull },
-      { id: "email-samenvatting", name: "Samenvatting", type: "link", url: "/rietveld/marketing-automation/samenvatting", Icon: IconDocSummary },
-      { id: "email-doelstellingen", name: "Doelstellingen", type: "link", url: "/rietveld/marketing-automation/doelstellingen", Icon: IconDocGoal },
-    ],
-  },
-  {
-    id: "rv-pinterest-folder",
-    title: "Pinterest",
-    items: [],
-  },
-];
+const folderDefs: FolderDef[] = [];
 
 const groups: Group[] = [
   {
@@ -603,12 +550,6 @@ const groups: Group[] = [
     icons: [
       { id: "masteroverzicht", name: "Masteroverzicht", type: "link", url: "https://docs.google.com/spreadsheets/d/1aN7l4TnXLXGIBmspGnTukyTkJ3wzCscHVPe-nIbxzCs/edit?gid=1011232414#gid=1011232414", Icon: IconMasteroverzicht },
       { id: "sales", name: "Sales", type: "link", url: "https://docs.google.com/spreadsheets/d/1UurKWRkc8E9cK8V0lVGbprYBH-A5gHuqMTV76oBT85M/edit?ts=6005ac02#gid=1447656458", Icon: IconSales },
-    ],
-  },
-  {
-    label: "Uitgelicht",
-    icons: [
-      { id: "rietveld", name: "Rietveld", type: "folder", folderId: "rietveld-folder", Icon: IconFolder },
     ],
   },
   {
