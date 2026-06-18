@@ -522,7 +522,6 @@ const phonebookData: { name: string; phone: string }[] = [
   { name: "Jan",        phone: "06-15546250" },
   { name: "Julie",      phone: "06-25778386" },
   { name: "Kelly",      phone: "06-25778389" },
-  { name: "Lisa",       phone: "06-27543484" },
   { name: "Lorenzo",    phone: "06-15202134" },
   { name: "Louise",     phone: "06-27499429" },
   { name: "Maiko",      phone: "06-25778388" },
