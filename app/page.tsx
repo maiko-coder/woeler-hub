@@ -424,6 +424,16 @@ function IconMinesweeper() {
   );
 }
 
+function IconPhonebook() {
+  return (
+    <XpIcon from="#27ae60" to="#1a6b38">
+      <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="white" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.89a16 16 0 0 0 6.06 6.06l.94-.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="white" fillOpacity={0.25} />
+      </svg>
+    </XpIcon>
+  );
+}
+
 function IconDocFull() {
   return (
     <XpIcon from="#4169e1" to="#1a3aa0">
@@ -469,7 +479,7 @@ function IconDocGoal() {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
-type IconType = "link" | "folder" | "game";
+type IconType = "link" | "folder" | "game" | "phonebook";
 
 interface DesktopIcon {
   id: string;
@@ -502,6 +512,33 @@ interface FolderDef {
 }
 
 const folderDefs: FolderDef[] = [];
+
+const phonebookData: { name: string; phone: string }[] = [
+  { name: "Amber",      phone: "06-27210648" },
+  { name: "Anouk",      phone: "06-27235524" },
+  { name: "Britt",      phone: "" },
+  { name: "Dominique",  phone: "06-11373271" },
+  { name: "Isa",        phone: "06-27225289" },
+  { name: "Jan",        phone: "06-15546250" },
+  { name: "Julie",      phone: "06-25778386" },
+  { name: "Kelly",      phone: "06-25778389" },
+  { name: "Lisa",       phone: "06-27543484" },
+  { name: "Lorenzo",    phone: "06-15202134" },
+  { name: "Louise",     phone: "06-27499429" },
+  { name: "Maiko",      phone: "06-25778388" },
+  { name: "Manon",      phone: "06-29745923" },
+  { name: "Melvin",     phone: "06-25778374" },
+  { name: "Milo",       phone: "06-25480167" },
+  { name: "Moran",      phone: "06-25778384" },
+  { name: "Natalie",    phone: "06-25778391" },
+  { name: "Nikki",      phone: "06-29140784" },
+  { name: "Paul",       phone: "06-21909009" },
+  { name: "Rinus",      phone: "06-25383166" },
+  { name: "Rodney",     phone: "06-25778390" },
+  { name: "Sarah",      phone: "06-21932332" },
+  { name: "Sem",        phone: "06-15665936" },
+  { name: "Shilla",     phone: "06-25778387" },
+];
 
 const groups: Group[] = [
   {
@@ -574,6 +611,7 @@ const groups: Group[] = [
     icons: [
       { id: "auto", name: "Pool auto", type: "link", url: "https://auto.woeler.nl", Icon: IconAuto },
       { id: "rooms", name: "Rooms", type: "link", url: "https://reservations.bettywebblocks.com/calendars/room", Icon: IconRooms },
+      { id: "phonebook", name: "Telefoonboek", type: "phonebook", Icon: IconPhonebook },
     ],
   },
 ];
@@ -582,11 +620,82 @@ const groups: Group[] = [
 
 interface WinState {
   instanceId: string;
-  type: "folder" | "minesweeper";
+  type: "folder" | "minesweeper" | "phonebook";
   folderId?: string;
   zIndex: number;
   pos: { x: number; y: number };
   minimized: boolean;
+}
+
+function PhonebookApp({ xpStyle }: { xpStyle: boolean }) {
+  const [search, setSearch] = useState("");
+
+  const q = search.toLowerCase().replace(/[\s\-]/g, "");
+  const filtered = phonebookData.filter(({ name, phone }) => {
+    if (q === "") return true;
+    return (
+      name.toLowerCase().includes(q) ||
+      phone.replace(/[\s\-]/g, "").includes(q)
+    );
+  });
+
+  const inputStyle: React.CSSProperties = xpStyle
+    ? { width: "100%", padding: "3px 6px", border: "2px inset #999", fontSize: 12, fontFamily: "Tahoma, sans-serif", boxSizing: "border-box" as const }
+    : { width: "100%", padding: "5px 8px", border: "0.5px solid rgba(0,0,0,0.15)", borderRadius: 6, fontSize: 12, outline: "none", boxSizing: "border-box" as const, background: "rgba(0,0,0,0.04)" };
+
+  return (
+    <div style={{ width: 400 }}>
+      {/* Search bar */}
+      <div style={{ padding: "8px 12px", background: xpStyle ? "#ece9d8" : "#f5f5f7", borderBottom: xpStyle ? "1px solid #b0a890" : "0.5px solid rgba(0,0,0,0.08)" }}>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Zoek op naam of nummer…"
+          style={inputStyle}
+          autoFocus
+        />
+      </div>
+      {/* List */}
+      <div style={{ maxHeight: 340, overflowY: "auto", background: "white" }}>
+        {filtered.length === 0 ? (
+          <div style={{ padding: 20, textAlign: "center", color: "#aaa", fontSize: 12, fontFamily: "Tahoma, sans-serif" }}>
+            Geen resultaten
+          </div>
+        ) : (
+          filtered.map(({ name, phone }) => (
+            <div
+              key={name}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "7px 14px",
+                borderBottom: "1px solid #f0f0f0",
+                fontSize: 12,
+                fontFamily: xpStyle ? "Tahoma, sans-serif" : "-apple-system, sans-serif",
+              }}
+            >
+              <span style={{ fontWeight: 600, color: "#222" }}>{name}</span>
+              {phone ? (
+                <a
+                  href={`tel:${phone.replace(/\D/g, "")}`}
+                  style={{ color: "#1a6b38", textDecoration: "none", letterSpacing: "0.02em" }}
+                >
+                  {phone}
+                </a>
+              ) : (
+                <span style={{ color: "#bbb" }}>—</span>
+              )}
+            </div>
+          ))
+        )}
+      </div>
+      {/* Footer count */}
+      <div style={{ padding: "4px 14px", fontSize: 10, color: "#aaa", background: xpStyle ? "#ece9d8" : "#f5f5f7", borderTop: xpStyle ? "1px solid #b0a890" : "0.5px solid rgba(0,0,0,0.07)", fontFamily: "Tahoma, sans-serif" }}>
+        {filtered.length} van {phonebookData.length} medewerkers
+      </div>
+    </div>
+  );
 }
 
 interface XpWindowProps {
@@ -599,7 +708,7 @@ interface XpWindowProps {
 }
 
 function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: XpWindowProps) {
-  const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;;
+  const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
   const dragging = useRef(false);
   const dragOffset = useRef({ dx: 0, dy: 0 });
 
@@ -632,7 +741,7 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
   return (
     <div
       className="fixed select-none"
-      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 560 }}
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : win.type === "phonebook" ? "auto" : 560 }}
       onMouseDown={() => onFocus(win.instanceId)}
     >
       {/* Drop shadow */}
@@ -650,6 +759,8 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
           {/* Title icon */}
           {win.type === "minesweeper" ? (
             <span className="text-base flex-shrink-0">💣</span>
+          ) : win.type === "phonebook" ? (
+            <span className="text-base flex-shrink-0">📞</span>
           ) : (
             <svg viewBox="0 0 20 16" className="w-5 h-4 flex-shrink-0">
               <path d="M1 3 C1 2 2 1 3 1 L8 1 L10 3 L17 3 C18 3 19 4 19 5 L19 14 C19 15 18 16 17 16 L3 16 C2 16 1 15 1 14 Z" fill="#F5C842" />
@@ -657,7 +768,7 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
             </svg>
           )}
           <span className="text-white text-sm font-bold flex-1 truncate" style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}>
-            {win.type === "minesweeper" ? "Minesweeper" : folder?.title ?? ""}
+            {win.type === "minesweeper" ? "Minesweeper" : win.type === "phonebook" ? "Telefoonboek" : folder?.title ?? ""}
           </span>
           {/* Window controls */}
           <div className="flex gap-1.5">
@@ -686,6 +797,8 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
           <div className="flex items-center justify-center p-3" style={{ background: "#c0c0c0" }}>
             <MinesweeperGame />
           </div>
+        ) : win.type === "phonebook" ? (
+          <PhonebookApp xpStyle={true} />
         ) : (
           <>
             {/* Address bar */}
@@ -745,7 +858,7 @@ function XpWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder }: X
 
 // ── Desktop icon tile ─────────────────────────────────────────────────────────
 
-function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFolder: (id: string) => void }) {
+function DesktopIconTile({ icon, onOpenFolder, onOpenPhonebook }: { icon: DesktopIcon; onOpenFolder: (id: string) => void; onOpenPhonebook: () => void }) {
   const [selected, setSelected] = useState(false);
 
   if (icon.desktopHidden) return null;
@@ -783,6 +896,14 @@ function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFold
     );
   }
 
+  if (icon.type === "phonebook") {
+    return (
+      <button className={cls} style={style} onClick={() => { setSelected(true); onOpenPhonebook(); }} onBlur={() => setSelected(false)}>
+        {inner}
+      </button>
+    );
+  }
+
   return (
     <a href={icon.url} target="_blank" rel="noopener noreferrer"
       className={cls} style={style}
@@ -797,7 +918,7 @@ function DesktopIconTile({ icon, onOpenFolder }: { icon: DesktopIcon; onOpenFold
 
 const allTools = groups.flatMap((g) => g.icons).filter((i) => i.type === "link");
 
-function StartMenu({ onClose, onOpenFolder, onOpenGame }: { onClose: () => void; onOpenFolder: (id: string) => void; onOpenGame: (gameId: string) => void }) {
+function StartMenu({ onClose, onOpenFolder, onOpenGame, onOpenPhonebook }: { onClose: () => void; onOpenFolder: (id: string) => void; onOpenGame: (gameId: string) => void; onOpenPhonebook: () => void }) {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -891,6 +1012,17 @@ function StartMenu({ onClose, onOpenFolder, onOpenGame }: { onClose: () => void;
                       <button
                         key={item.id}
                         onClick={() => { onClose(); onOpenGame(item.id); }}
+                        className="w-full flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group text-left"
+                      >
+                        {iconEl}{label}
+                      </button>
+                    );
+                  }
+                  if (item.type === "phonebook") {
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { onClose(); onOpenPhonebook(); }}
                         className="w-full flex items-center gap-2 px-3 py-1 hover:bg-[#316ac5] group text-left"
                       >
                         {iconEl}{label}
@@ -1033,12 +1165,12 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
 
   if (win.minimized) return null;
 
-  const title = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? "");
+  const title = win.type === "minesweeper" ? "Minesweeper" : win.type === "phonebook" ? "Telefoonboek" : (folder?.title ?? "");
 
   return (
     <div
       className="fixed select-none"
-      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" ? "auto" : 560 }}
+      style={{ left: win.pos.x, top: win.pos.y, zIndex: win.zIndex, width: win.type === "minesweeper" || win.type === "phonebook" ? "auto" : 560 }}
       onMouseDown={() => onFocus(win.instanceId)}
     >
       <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 0 0 0.5px rgba(0,0,0,0.08)" }}>
@@ -1068,6 +1200,8 @@ function ModernWindow({ win, onClose, onFocus, onMinimize, onMove, onOpenFolder 
           <div className="flex items-center justify-center p-5" style={{ background: "#ffffff" }}>
             <MinesweeperGame />
           </div>
+        ) : win.type === "phonebook" ? (
+          <PhonebookApp xpStyle={false} />
         ) : (
           <div className="p-5 min-h-[200px]" style={{ background: "#ffffff" }}>
             {!folder || folder.items.length === 0 ? (
@@ -1218,6 +1352,26 @@ export default function Home() {
     ]);
   }
 
+  function openPhonebook() {
+    const existing = windows.find((w) => w.type === "phonebook" && !w.minimized);
+    if (existing) { focusWindow(existing.instanceId); return; }
+    maxZ.current += 1;
+    const id = `win-${++winCounter}`;
+    setWindows((ws) => [
+      ...ws,
+      {
+        instanceId: id,
+        type: "phonebook",
+        zIndex: maxZ.current,
+        pos: {
+          x: Math.max(40, (window.innerWidth - 420) / 2 + ws.length * 24),
+          y: Math.max(80, (window.innerHeight - 400) / 2 + ws.length * 24 - 40),
+        },
+        minimized: false,
+      },
+    ]);
+  }
+
   function closeWindow(instanceId: string) {
     setWindows((ws) => ws.filter((w) => w.instanceId !== instanceId));
   }
@@ -1323,6 +1477,13 @@ export default function Home() {
                         </button>
                       );
                     }
+                    if (icon.type === "phonebook") {
+                      return (
+                        <button key={icon.id} className={tileClass} style={tileStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut} onClick={openPhonebook}>
+                          {iconEl}
+                        </button>
+                      );
+                    }
                     return (
                       <a key={icon.id} href={icon.url} target="_blank" rel="noopener noreferrer" className={tileClass} style={tileStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>
                         {iconEl}
@@ -1344,7 +1505,7 @@ export default function Home() {
             <span className="text-[10px] uppercase tracking-widest mr-2 flex-shrink-0" style={{ color: "rgba(0,0,0,0.25)" }}>Open</span>
             {windows.map((win) => {
               const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
-              const label = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? "Venster");
+              const label = win.type === "minesweeper" ? "Minesweeper" : win.type === "phonebook" ? "Telefoonboek" : (folder?.title ?? "Venster");
               return (
                 <button
                   key={win.instanceId}
@@ -1418,7 +1579,7 @@ export default function Home() {
               {/* Icons wrap within the group column */}
               <div className="flex flex-row flex-wrap gap-0.5">
                 {group.icons.map((icon) => (
-                  <DesktopIconTile key={icon.id} icon={icon} onOpenFolder={openFolder} />
+                  <DesktopIconTile key={icon.id} icon={icon} onOpenFolder={openFolder} onOpenPhonebook={openPhonebook} />
                 ))}
               </div>
             </div>
@@ -1434,7 +1595,7 @@ export default function Home() {
           boxShadow: "0 -1px 0 rgba(255,255,255,0.3) inset, 0 1px 3px rgba(0,0,0,0.5)"
         }}
       >
-        {startOpen && <StartMenu onClose={() => setStartOpen(false)} onOpenFolder={(id) => { setStartOpen(false); openFolder(id); }} onOpenGame={(id) => { setStartOpen(false); if (id === "minesweeper") openMinesweeper(); }} />}
+        {startOpen && <StartMenu onClose={() => setStartOpen(false)} onOpenFolder={(id) => { setStartOpen(false); openFolder(id); }} onOpenGame={(id) => { setStartOpen(false); if (id === "minesweeper") openMinesweeper(); }} onOpenPhonebook={() => { setStartOpen(false); openPhonebook(); }} />}
 
         {/* Start button */}
         <button
@@ -1464,7 +1625,7 @@ export default function Home() {
         <div className="flex items-center gap-1 flex-1 px-1 overflow-x-auto overflow-y-hidden">
           {windows.map((win) => {
             const folder = win.type === "folder" ? folderDefs.find((f) => f.id === win.folderId) : undefined;
-            const title = win.type === "minesweeper" ? "Minesweeper" : (folder?.title ?? win.folderId ?? "Venster");
+            const title = win.type === "minesweeper" ? "Minesweeper" : win.type === "phonebook" ? "Telefoonboek" : (folder?.title ?? win.folderId ?? "Venster");
             return (
               <button
                 key={win.instanceId}

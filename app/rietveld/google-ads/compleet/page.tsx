@@ -182,7 +182,7 @@ export default function GoogleAdsCompleet() {
             {
               phase: "Fase 1",
               period: "0 – 3 maanden",
-              items: ["Locatietargeting corrigeren", "tROAS instellen op Bestsellers & Sale", "Bestsellers opsplitsen op apparaat"],
+              items: ["Locatietargeting corrigeren", "tROAS instellen op Bestsellers & Sale", "Bestsellers opsplitsen op apparaat", "PMax splitsen op producttype"],
               goal: "ROAS → 6,0 · CPA → €30",
               color: "#fee2e2",
               tc: "#dc2626",
@@ -190,7 +190,7 @@ export default function GoogleAdsCompleet() {
             {
               phase: "Fase 2",
               period: "3 – 6 maanden",
-              items: ["PMax splitsen op producttype", "Premium €400+ campagne lanceren", "Budgetstructuur heralloceren"],
+              items: ["PMax splitsen op producttype (vervolg)", "Premium €400+ campagne lanceren", "Budgetstructuur heralloceren"],
               goal: "ROAS 6,2–6,5 · CPA <€29",
               color: COLOR_LIGHT,
               tc: COLOR,
