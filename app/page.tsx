@@ -516,7 +516,7 @@ const folderDefs: FolderDef[] = [];
 const phonebookData: { name: string; phone: string }[] = [
   { name: "Amber",      phone: "06-27210648" },
   { name: "Anouk",      phone: "06-27235524" },
-  { name: "Britt",      phone: "" },
+  { name: "Britt",      phone: "06-25778395" },
   { name: "Dominique",  phone: "06-11373271" },
   { name: "Isa",        phone: "06-27225289" },
   { name: "Jan",        phone: "06-15546250" },
